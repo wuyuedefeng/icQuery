@@ -1,11 +1,13 @@
 # icQuery
 
 ### $ic.http
+```javascript
+ $ic.http.get(config, onSuccess, onError);
+ $ic.http.post(config, onSuccess, onError);
+ $ic.http.put(config, onSuccess, onError);
+ $ic.http.delete(config, onSuccess, onError);
+```
 
-* $ic.http.get(config, onSuccess, onError);
-* $ic.http.post(config, onSuccess, onError);
-* $ic.http.put(config, onSuccess, onError);
-* $ic.http.delete(config, onSuccess, onError);
 
 ###### config:
 - url String: request url  `[must]`
