@@ -10,14 +10,14 @@ gulp.task('es6ToEs5', function() {
         .bundle()
         .pipe(plumber())
         //Pass desired output filename to vinyl-source-stream
-        .pipe(source('bundle.js'))
+        .pipe(source('icQuery.js'))
         // Start piping stream to tasks!
         .pipe(gulp.dest('./'));
 });
 
 var uglify = require('gulp-uglify');
 gulp.task('uglify',['es6ToEs5'], function () {
-   return gulp.src('./bundle.js')
+   return gulp.src('./icQuery.js')
        .pipe(plumber())
        .pipe(uglify())
        .pipe(gulp.dest("./"));

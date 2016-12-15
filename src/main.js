@@ -1,11 +1,13 @@
 (function () {
-    var ic = {
+    var $ic = function () {
 
     };
 
-    if(window.$){
-        window.$.ic = ic;
+
+    if(window['$']){
+        window['$'].ic = $ic;
     }else {
-        window['$ic'] = ic;
+        window['$ic'] = $ic;
     }
 })();
+
