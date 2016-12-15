@@ -4,6 +4,18 @@ var http = {
         config.method = 'GET';
         http.request(config, onSuccess, onError);
     },
+    post: function (config, onSuccess, onError) {
+        config.method = "POST";
+        http.request(config, onSuccess, onError);
+    },
+    put: function (config, onSuccess, onError) {
+        config.method = "PUT";
+        http.request(config, onSuccess, onError);
+    },
+    delete: function (config, onSuccess, onError) {
+        config.method = "DELETE";
+        http.request(config, onSuccess, onError);
+    },
     request: function (config, onSuccess, onError) {
         // 统一初始化config参数
         tools.handleConfig(config, onSuccess, onError);

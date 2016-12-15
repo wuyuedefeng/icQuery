@@ -3,6 +3,8 @@
 
     };
 
+    $ic.http = require('./http/http');
+
 
     if(window['$']){
         window['$'].ic = $ic;
