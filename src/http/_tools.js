@@ -44,7 +44,7 @@ function handleConfig(config, onSuccess, onError) {
                 config["onProgress"] && config["onProgress"](percentComplete, event);
             }
         };
-    config["onProgress"] = config["onProgress"] || function (percentComplete) {
+    config["onProgress"] = config["onProgress"] || function (percentComplete, event) {
             console.log('progress:', percentComplete);
         };
     /**
