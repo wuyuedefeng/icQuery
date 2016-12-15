@@ -1,0 +1,29 @@
+{
+  "name": "ic-query",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wuyuedefeng/icQuery.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wuyuedefeng/icQuery/issues"
+  },
+  "homepage": "https://github.com/wuyuedefeng/icQuery#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "babel-preset-es2015": "^6.18.0",
+    "babelify": "^7.3.0",
+    "browserify": "^13.1.1",
+    "gulp-plumber": "^1.1.0",
+    "gulp-uglify": "^2.0.0",
+    "gulp-watch": "^4.3.11",
+    "vinyl-source-stream": "^1.1.0"
+  }
+}
