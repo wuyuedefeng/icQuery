@@ -1,5 +1,7 @@
 function handleConfig(config, onSuccess, onError) {
     config = config || {};
+    // 设置headers信息
+    config.headers = config.headers || {};
     // get 请求参数
     config.params = config.params || {};
     // post 请求参数
@@ -12,6 +14,15 @@ function handleConfig(config, onSuccess, onError) {
     if (config.async !== false) {
         config.async = true;
     }
+
+    // 设置超市时间 integer ms
+    // config.timeout
+    if(config.timeout){
+        config.onTimeout = config["onTimeout"] || function(event){
+                console.error(config.url +  'request timeout :' + config.timeout + 'ms');
+            };
+    }
+
     /**
      * 发送进度
      * @type {progress}
@@ -40,7 +51,7 @@ function handleConfig(config, onSuccess, onError) {
      * 请求状态改变
      * @type {Function}
      */
-    config.onreadystatechange = config.onreadystatechange || function () {
+    config._onreadystatechange = config._onreadystatechange || function () {
             // readyState: 该属性表示请求/响应过程的当前活动阶段
             // 0:未初始化。尚未调用open()方法。
             // 1:启动。已经调用open()方法，但尚未调用send()方法。
@@ -74,6 +85,14 @@ function handleConfig(config, onSuccess, onError) {
     return config;
 }
 
+
+function handleObjToParams(obj) {
+    return Object.keys(obj).map(function(key) {
+        return key + '=' + obj[key];
+    }).join('&');
+}
+
 module.exports = {
-    handleConfig: handleConfig
+    handleConfig: handleConfig,
+    handleObjToParams: handleObjToParams
 }
