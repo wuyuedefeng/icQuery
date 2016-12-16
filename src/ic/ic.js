@@ -1,4 +1,4 @@
 module.exports = function $ic(query) {
-    var icArray = require('./createIcArray')();
+    var icArray = require('./_createIcArray')();
     return icArray._query(query);
 };
