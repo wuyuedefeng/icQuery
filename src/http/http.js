@@ -48,6 +48,11 @@ var http = {
          调用该方法并不会真正发送请求，而只是启动一个请求以备发送。
          */
         var urlParams = tools.handleObjToParams(config.params);
+        if(/\?/i.test(config.url)){ // url已经存在部分参数
+            urlParams = '&' + urlParams;
+        }else { // url 上没有任何参数
+            urlParams = '?' + urlParams;
+        }
         xhr.open(config.method, config.url + urlParams, config.async);
 
         /* .setRequestHeader("name","value"):设置自定义的请求头部信息。

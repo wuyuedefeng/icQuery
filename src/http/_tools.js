@@ -110,10 +110,9 @@ function handleConfig(config, onSuccess, onError) {
 
 
 function handleObjToParams(obj) {
-    var handledString = Object.keys(obj).map(function(key) {
+    return Object.keys(obj).map(function(key) {
         return key + '=' + obj[key];
     }).join('&');
-    return handledString ? '?' + handledString : '';
 }
 
 module.exports = {

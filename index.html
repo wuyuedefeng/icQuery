@@ -13,7 +13,7 @@
     <div class="test">test</div>
 </body>
 <script>
-    $ic.http.get('www.baidu.com?a=1', function (data) {
+    $ic.http.get({url: 'http://teacher.xcase.com.cn/Api/classList2?1.0.0&platform=web', params: {abc: 1}}, function (data) {
         console.log(data)
     }, function (errData) {
         console.log(errData);
