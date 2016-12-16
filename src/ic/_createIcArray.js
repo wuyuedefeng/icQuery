@@ -45,7 +45,9 @@ function createIcArray(arr) {
         });
         return icArray;
     };
+    /* #if icNote === 'exist' */
     _icArray.find.icDesc = '查询所有子孙节点';
+    /* #endif */
 
     // 初始化方法完毕返回
     return _icArray;
