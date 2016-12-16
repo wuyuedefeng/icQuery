@@ -231,7 +231,7 @@ function createIcArray(arr) {
                 if (doms && doms.length) {
                     Array.prototype.push.apply(this, doms);
                 }
-            } else {
+            } else if (/^[a-z]+$/i.test(query)) {
                 var doms = rootElement.querySelectorAll(query);
                 if (doms && doms.length) {
                     Array.prototype.push.apply(this, doms);
@@ -254,6 +254,32 @@ function createIcArray(arr) {
     };
     /* #if icNote === 'exist' */
     _icArray.find.icDesc = '查询所有子孙节点';
+    /* #endif */
+
+    function operateClass(op, icArray, className) {
+        var classNames = className instanceof Array ? className : className.split(' ');
+        icArray.forEach(function (element) {
+            classNames.forEach(function (classItem) {
+                element.classList[op](classItem);
+            });
+        });
+    }
+    /**
+     * 添加类
+     * @param className :string or array 被追加的类名
+     */
+    _icArray.addClass = function (className) {
+        operateClass('add', this, className);
+    };
+    /* #if icNote === 'exist' */
+    _icArray.addClass.icDesc = '追加一个新的类(参数：string or array)';
+    /* #endif */
+
+    _icArray.removeClass = function (className) {
+        operateClass('remove', this, className);
+    };
+    /* #if icNote === 'exist' */
+    _icArray.removeClass.icDesc = '追加一个新的类(参数：string or array)';
     /* #endif */
 
     // 初始化方法完毕返回
