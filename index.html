@@ -9,14 +9,16 @@
     <script src="./icQuery.js"></script>
 </head>
 <body>
-    <div id="test" class="test">test</div>
-    <div class="test">test</div>
+    <div id="test" class="test">
+        <span class="abc">in abc</span>
+        <div>
+            <span class="abc">in in abc</span>
+        </div>
+    </div>
+    <span class="abc">out abc</span>
+    <div class="test">test <i class="abc"></i></div>
 </body>
 <script>
-    $ic.http.get({url: 'http://teacher.xcase.com.cn/Api/classList2?1.0.0&platform=web', params: {abc: 1}}, function (data) {
-        console.log(data)
-    }, function (errData) {
-        console.log(errData);
-    })
+    console.log($ic('.test').find('.abc'));
 </script>
 </html>
