@@ -19,6 +19,11 @@
     <div class="test">test <i class="abc"></i></div>
 </body>
 <script>
-
+    console.log($ic('#test').find('.abc'));
+    $ic.http.get('http://www.weather.com.cn/data/sk/101010100.html',function (data) {
+        console.log(data);
+    }, function (errData) {
+        console.log(errData);
+    })
 </script>
 </html>
