@@ -66,14 +66,14 @@ function createIcArray(arr) {
        operateClass('add', this, className);
    };
     /* #if icNote === 'exist' */
-    _icArray.addClass.icDesc = '追加一个新的类(参数：string or array)';
+    _icArray.addClass.icDesc = '追加一个或多个新的类(参数：string or array)';
     /* #endif */
 
     _icArray.removeClass = function (className) {
         operateClass('remove', this, className);
     };
     /* #if icNote === 'exist' */
-    _icArray.removeClass.icDesc = '追加一个新的类(参数：string or array)';
+    _icArray.removeClass.icDesc = '删除一个或多个已有类(参数：string or array)';
     /* #endif */
 
 
