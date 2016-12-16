@@ -14,12 +14,7 @@ function createIcArray(arr) {
     _icArray._query = function (query, rootElement) {
         rootElement = rootElement || document;
         if (typeof query == 'string') {
-            if (query[0] == '#') {
-                var dom = rootElement.querySelector(query);
-                if (dom) {
-                    this.push(dom);
-                }
-            } else if (query[0] == '.') {
+            if (/^(\.|#).+/i.test(query)) { // 首字母以 . 或者 # 开头
                 var doms = rootElement.querySelectorAll(query);
                 if (doms && doms.length) {
                     Array.prototype.push.apply(this, doms);
