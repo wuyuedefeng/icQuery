@@ -1,3 +1,22 @@
+function createXmlHttpRequestObj() {
+    var xmlHttp = null;
+    try{ //Firefox, Opera 8.0+, Safari, chrome
+        xmlHttp=new XMLHttpRequest();
+    }catch (e){
+        try{ //Internet Explorer
+            xmlHttp=new ActiveXObject("Msxml2.XMLHTTP");
+        }catch (e){
+            try{
+                xmlHttp=new ActiveXObject("Microsoft.XMLHTTP");
+            }catch (e){
+                console.error('您的浏览器不支持ajax！');
+            }
+        }
+    }
+    return xmlHttp;
+}
+
+
 function handleConfig(config, onSuccess, onError) {
     config = config || {};
     // 设置headers信息
@@ -69,7 +88,11 @@ function handleConfig(config, onSuccess, onError) {
                     // xhr.getAllResponseHeaders();    //'Content-Type: text/html'
                     var contentType = config.xhr.getResponseHeader('Content-Type');
                     if (/json/i.test(contentType)) {
-                        data = JSON.parse(data);
+                        data = JSON.parse(config.xhr.responseText);
+                    }else if(/xml/i.test(contentType)){
+                        data = JSON.parse(config.xhr.responseXML);
+                    }else {
+                        data = config.xhr.responseText;
                     }
                     config.onSuccess && config.onSuccess(data);
                     config["onEnd"] && config["onEnd"](false, data);
@@ -87,12 +110,14 @@ function handleConfig(config, onSuccess, onError) {
 
 
 function handleObjToParams(obj) {
-    return Object.keys(obj).map(function(key) {
+    var handledString = Object.keys(obj).map(function(key) {
         return key + '=' + obj[key];
     }).join('&');
+    return handledString ? '?' + handledString : '';
 }
 
 module.exports = {
+    createXmlHttpRequestObj: createXmlHttpRequestObj,
     handleConfig: handleConfig,
     handleObjToParams: handleObjToParams
 }

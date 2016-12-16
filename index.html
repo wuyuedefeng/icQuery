@@ -13,6 +13,10 @@
     <div class="test">test</div>
 </body>
 <script>
-    console.log($ic('div'));
+    $ic.http.get('www.baidu.com?a=1', function (data) {
+        console.log(data)
+    }, function (errData) {
+        console.log(errData);
+    })
 </script>
 </html>

@@ -1,6 +1,11 @@
 var tools = require('./_tools');
 var http = {
     get: function (config, onSuccess, onError) {
+        if(typeof config == 'string'){
+            config = {
+                url: config
+            };
+        }
         config.method = 'GET';
         http.request(config, onSuccess, onError);
     },
@@ -21,19 +26,9 @@ var http = {
         tools.handleConfig(config, onSuccess, onError);
 
         // 创建xmlHttpRequest对象
-        var xhr = null;
-        if (window.XMLHttpRequest) {
-            xhr = new XMLHttpRequest();
-        } else if (window.ActiveXObject) {
-            xhr = new ActiveXObject("Microsoft.XMLHTTP");
-        } else {
-            if (!xhr){
-                alert('浏览器不支持xmlHttpRequest');
-                return ;
-            }else {
-                config.xhr = xhr;
-            }
-        }
+        var xhr = tools.createXmlHttpRequestObj();
+        config.xhr = xhr;
+
 
         // 进度条监听
         xhr.onprogress = config._onprogress;
@@ -53,7 +48,7 @@ var http = {
          调用该方法并不会真正发送请求，而只是启动一个请求以备发送。
          */
         var urlParams = tools.handleObjToParams(config.params);
-        xhr.open(config.method, config.url + '?' + urlParams, config.async);
+        xhr.open(config.method, config.url + urlParams, config.async);
 
         /* .setRequestHeader("name","value"):设置自定义的请求头部信息。
          参数:name为自定义的头部字段的名称
@@ -80,3 +75,5 @@ var http = {
     },
     _tools: tools
 };
+
+module.exports = http;
