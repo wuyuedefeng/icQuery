@@ -187,7 +187,7 @@ var http = {
          value为自定义的头部字段的值。
          该方法的调用必须在调用open()方法之后且在调用send()方法之前。
          */
-        if (/get/i.test('get')) {
+        if (!/get/i.test('get')) {
             xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
         }
         for (var key in config.headers) {
@@ -254,11 +254,12 @@ function createIcArray(arr) {
     _icArray.find.icDesc = '查询所有子孙节点';
     /* #endif */
 
-    function operateClass(op, icArray, className) {
+    function operateClass(op, icArray, className, cb) {
         var classNames = className instanceof Array ? className : className.split(' ');
         icArray.forEach(function (element) {
             classNames.forEach(function (classItem) {
-                element.classList[op](classItem);
+                var value = element.classList[op](classItem);
+                cb && cb(value);
             });
         });
     }
@@ -278,6 +279,34 @@ function createIcArray(arr) {
     };
     /* #if icNote === 'exist' */
     _icArray.removeClass.icDesc = '删除一个或多个已有类(参数：string or array)';
+    /* #endif */
+
+    _icArray.replaceClass = function (removeClass, addClass) {
+        this.removeClass(removeClass);
+        this.addClass(addClass);
+    };
+    /* #if icNote === 'exist' */
+    _icArray.replaceClass.icDesc = '先删除参数1的类，再添加参数2的类，参数1、2：string or array';
+    /* #endif */
+
+    _icArray.toggleClass = function (className) {
+        operateClass('toggle', this, className);
+    };
+    /* #if icNote === 'exist' */
+    _icArray.toggleClass.icDesc = '存在class移除，不存在添加， 参数：string or array';
+    /* #endif */
+
+    _icArray.containsClass = function (className) {
+        var allContain = true;
+        operateClass('contains', this, className, function (isContainItem) {
+            if (!isContainItem) {
+                allContain = isContainItem;
+            }
+        });
+        return allContain;
+    };
+    /* #if icNote === 'exist' */
+    _icArray.containsClass.icDesc = '判断icArray中每个元素是否都存在传递的所有类， 参数：string or array';
     /* #endif */
 
     // 初始化方法完毕返回

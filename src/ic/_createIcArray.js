@@ -45,11 +45,12 @@ function createIcArray(arr) {
     /* #endif */
 
 
-    function operateClass(op, icArray, className) {
+    function operateClass(op, icArray, className, cb) {
         var classNames = className instanceof(Array) ? className : className.split(' ');
         icArray.forEach(function (element) {
             classNames.forEach(function (classItem) {
-                element.classList[op](classItem);
+                var value = element.classList[op](classItem);
+                cb && cb(value);
             });
         });
     }
@@ -85,6 +86,21 @@ function createIcArray(arr) {
     /* #if icNote === 'exist' */
     _icArray.toggleClass.icDesc = '存在class移除，不存在添加， 参数：string or array';
     /* #endif */
+
+    _icArray.containsClass = function (className) {
+        var allContain = true;
+        operateClass('contains',this, className, function (isContainItem) {
+            if(!isContainItem){
+                allContain = isContainItem;
+            }
+        });
+        return allContain;
+    };
+    /* #if icNote === 'exist' */
+    _icArray.containsClass.icDesc = '判断icArray中每个元素是否都存在传递的所有类， 参数：string or array';
+    /* #endif */
+
+
 
 
 
