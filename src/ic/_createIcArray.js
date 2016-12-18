@@ -79,6 +79,13 @@ function createIcArray(arr) {
     _icArray.replaceClass.icDesc = '先删除参数1的类，再添加参数2的类，参数1、2：string or array';
     /* #endif */
 
+    _icArray.toggleClass = function (className) {
+        operateClass('toggle',this, className);
+    };
+    /* #if icNote === 'exist' */
+    _icArray.toggleClass.icDesc = '存在class移除，不存在添加， 参数：string or array';
+    /* #endif */
+
 
 
 
