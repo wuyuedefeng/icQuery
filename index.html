@@ -17,23 +17,12 @@
     </div>
     <span class="abc">out abc</span>
     <div class="test">test <i class="abc"></i></div>
-
-    <style>
-        .c5{
-            background: red;
-        }
-    </style>
     <div id="insert" class="c1 c2 c3">
         <div><span class="b"></span></div>
         <span class="a"></span>
     </div>
 </body>
 <script>
-    console.log($ic('#test').find('.abc'));
-
-    console.log($ic('#insert span'));
-
-    console.log($ic('#insert'));
 
     $ic.http.get('http://www.weather.com.cn/data/sk/101010100.html',function (data) {
         console.log(data);

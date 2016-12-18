@@ -71,6 +71,16 @@ function createIcArray(arr) {
     _icArray.removeClass.icDesc = '删除一个或多个已有类(参数：string or array)';
     /* #endif */
 
+    _icArray.replaceClass = function (className1, className2) {
+        this.removeClass(className1);
+        this.addClass(className2);
+    };
+    /* #if icNote === 'exist' */
+    _icArray.replaceClass.icDesc = '先删除参数1的类，添加参数2的类，参数1、2：string or array';
+    /* #endif */
+
+
+
 
 
 
