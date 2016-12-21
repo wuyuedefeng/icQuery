@@ -101,6 +101,61 @@ function createIcArray(arr) {
     /* #endif */
 
 
+    _icArray.clientWidth = function () {
+        return this.length && this[0].clientWidth || 0;
+    };
+    /* #if icNote === 'exist' */
+    _icArray.clientWidth.icDesc = '是对象可见的宽度，不包滚动条等边线，会随窗口的显示大小改变,返回整型';
+    /* #endif */
+
+    _icArray.offsetWidth = function () {
+        return this.length && this[0].offsetWidth || 0;
+    };
+    /* #if icNote === 'exist' */
+    _icArray.offsetWidth.icDesc = '是对象的可见宽度，包滚动条等边线，会随窗口的显示大小改变,返回整型';
+    /* #endif */
+
+    _icArray.scrollWidth = function () {
+        return this.length && this[0].scrollWidth || 0;
+    };
+    /* #if icNote === 'exist' */
+    _icArray.scrollWidth.icDesc = '对象实际内容的宽度,返回整型';
+    /* #endif */
+
+    _icArray.offsetParent = function () {
+        // 原生offsetParent如果自身有fixed定位，返回null，FirFox返回body标签。
+        var e = this.length && this[0].offsetParent;
+        var icArray = createIcArray();
+        if(e){
+            icArray.push(e);
+        }else {
+            icArray = icArray._query('body');
+        }
+        return icArray;
+    };
+    /* #if icNote === 'exist' */
+    _icArray.offsetParent.icDesc = '与当前元素最近的经过定位(position不等于static)的父级元素, 主要分为' +
+        '【1】元素自身有fixed定位，offsetParent的结果为body' +
+        '【2】元素自身无fixed定位，且父级元素都未经过定位，offsetParent的结果为body' +
+        '【3】元素自身无fixed定位，且父级元素存在经过定位的元素，offsetParent的结果为离自身元素最近的经过定位的父级元素';
+    /* #endif */
+
+    _icArray.offsetTop = function () {
+        return this.length && this[0].offsetTop || 0;
+    };
+    /* #if icNote === 'exist' */
+    _icArray.offsetTop.icDesc = '只读,相对于版面或由 offsetParent 属性指定的父坐标的计算上侧位置，返回整型，单位像素';
+    /* #endif */
+
+    _icArray.offsetLeft = function () {
+        return this.length && this[0].offsetLeft || 0;
+    };
+    /* #if icNote === 'exist' */
+    _icArray.offsetLeft.icDesc = '只读,相对于版面或由 offsetParent 属性指定的父坐标的计算左侧位置，返回整型，单位像素';
+    /* #endif */
+
+
+
 
 
 

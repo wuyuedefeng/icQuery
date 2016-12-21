@@ -23,7 +23,7 @@
     </div>
 </body>
 <script>
-    var result = $ic('#insert').containsClass(['c1', 'c3']);
+    var result = $ic('#insert');
     console.log(result);
     $ic.http.get('http://www.weather.com.cn/data/sk/101010100.html',function (data) {
         console.log(data);
