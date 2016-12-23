@@ -161,19 +161,34 @@ icPrototype.offsetLeft = function () {
 icPrototype.offsetLeft.icDesc = '只读,相对于版面或由 offsetParent 属性指定的父坐标的计算左侧位置，返回整型，单位像素';
 /* #endif */
 
-icPrototype.on = function (event, cb, useCapture = false) {
-    var events = event instanceof(Array) ? event : event.split(' ');
-    this.forEach(function (element) {
-        events.forEach(function (eventItem) {
-            if(element.addEventListener) {
-                element.addEventListener(eventItem, cb, useCapture);
-            } else if(element.attachEvent){
-                element.attachEvent("on" + eventItem, cb);
-            }else{
-                element["on" + eventItem] = cb;
-            }
+function bindEvents(icArray, events, cb, useCapture=false) {
+    icArray.forEach(function (element) {
+        events.forEach(function (type) {
+            bindEvent(element, type, cb, useCapture);
         });
     });
+}
+function bindEvent(element, type, cb, useCapture=false) {
+    if(element.addEventListener) {
+        element.addEventListener(type, cb, useCapture);
+    } else if(element.attachEvent){
+        element.attachEvent("on" + type, cb);
+    }else{
+        element["on" + type] = cb;
+    }
+}
+function unbindEvent(element, type, cb, useCapture=false) {
+    if(element.removeEventListener){
+        element.removeEventListener(type, cb, useCapture);
+    } else if(element.detachEvent){
+        element.detachEvent("on" + type, cb);
+    }else {
+        element["on" + type] = null;
+    }
+}
+icPrototype.on = function (event, cb, useCapture = false) {
+    var events = event instanceof(Array) ? event : event.split(' ');
+    bindEvents(this, events, cb, useCapture);
 };
 /* #if icNote === 'exist' */
 icPrototype.on.icDesc = '绑定事件如：click hover ..., 参数：string or array, ' +
@@ -183,6 +198,15 @@ icPrototype.on.icDesc = '绑定事件如：click hover ..., 参数：string or a
     '\n[3]如果多个均为 false，则内层的触发先于外层';
 
 /* #endif */
+
+icPrototype.one = function(event, cb, useCapture = false){
+    var events = event instanceof(Array) ? event : event.split(' ');
+    function oneCb(event) {
+        cb && cb(event);
+        unbindEvent(event.target, event.type, oneCb, useCapture);
+    }
+    bindEvents(this, events, oneCb, useCapture);
+};
 
 
 

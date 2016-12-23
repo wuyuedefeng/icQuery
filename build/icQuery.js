@@ -370,26 +370,58 @@ icPrototype.offsetLeft = function () {
 icPrototype.offsetLeft.icDesc = '只读,相对于版面或由 offsetParent 属性指定的父坐标的计算左侧位置，返回整型，单位像素';
 /* #endif */
 
+function bindEvents(icArray, events, cb) {
+    var useCapture = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
+
+    icArray.forEach(function (element) {
+        events.forEach(function (type) {
+            bindEvent(element, type, cb, useCapture);
+        });
+    });
+}
+function bindEvent(element, type, cb) {
+    var useCapture = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
+
+    if (element.addEventListener) {
+        element.addEventListener(type, cb, useCapture);
+    } else if (element.attachEvent) {
+        element.attachEvent("on" + type, cb);
+    } else {
+        element["on" + type] = cb;
+    }
+}
+function unbindEvent(element, type, cb) {
+    var useCapture = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
+
+    if (element.removeEventListener) {
+        element.removeEventListener(type, cb, useCapture);
+    } else if (element.detachEvent) {
+        element.detachEvent("on" + type, cb);
+    } else {
+        element["on" + type] = null;
+    }
+}
 icPrototype.on = function (event, cb) {
     var useCapture = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
 
     var events = event instanceof Array ? event : event.split(' ');
-    this.forEach(function (element) {
-        events.forEach(function (eventItem) {
-            if (element.addEventListener) {
-                element.addEventListener(eventItem, cb, useCapture);
-            } else if (element.attachEvent) {
-                element.attachEvent("on" + eventItem, cb);
-            } else {
-                element["on" + eventItem] = cb;
-            }
-        });
-    });
+    bindEvents(this, events, cb, useCapture);
 };
 /* #if icNote === 'exist' */
 icPrototype.on.icDesc = '绑定事件如：click hover ..., 参数：string or array, ' + '\nuseCapture: ' + '\n[1]true 的触发顺序总是在 false 之前' + '\n[2]如果多个均为 true，则外层的触发先于内层' + '\n[3]如果多个均为 false，则内层的触发先于外层';
 
 /* #endif */
+
+icPrototype.one = function (event, cb) {
+    var useCapture = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+
+    var events = event instanceof Array ? event : event.split(' ');
+    function oneCb(event) {
+        cb && cb(event);
+        unbindEvent(event.target, event.type, oneCb, useCapture);
+    }
+    bindEvents(this, events, oneCb, useCapture);
+};
 
 module.exports = {
     IcArray: IcArray,
