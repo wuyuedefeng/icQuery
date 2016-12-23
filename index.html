@@ -18,6 +18,7 @@
     <span class="abc">out abc</span>
     <div class="test">test <i class="abc"></i></div>
     <div id="insert" class="c1 c2 c3">
+        inser
         <div><span class="b"></span></div>
         <span class="a"></span>
     </div>
@@ -25,6 +26,11 @@
 <script>
     var result = $ic('#insert');
     console.log(result);
+
+    $ic('#insert').on('click', function (event) {
+        console.log(event);
+    });
+
     $ic.http.get('http://www.weather.com.cn/data/sk/101010100.html',function (data) {
         console.log(data);
     }, function (errData) {

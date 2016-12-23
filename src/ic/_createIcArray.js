@@ -142,9 +142,9 @@ icPrototype.offsetParent = function () {
 };
 /* #if icNote === 'exist' */
 icPrototype.offsetParent.icDesc = '与当前元素最近的经过定位(position不等于static)的父级元素, 主要分为' +
-    '【1】元素自身有fixed定位，offsetParent的结果为body' +
-    '【2】元素自身无fixed定位，且父级元素都未经过定位，offsetParent的结果为body' +
-    '【3】元素自身无fixed定位，且父级元素存在经过定位的元素，offsetParent的结果为离自身元素最近的经过定位的父级元素';
+    '\n【1】元素自身有fixed定位，offsetParent的结果为body' +
+    '\n【2】元素自身无fixed定位，且父级元素都未经过定位，offsetParent的结果为body' +
+    '\n【3】元素自身无fixed定位，且父级元素存在经过定位的元素，offsetParent的结果为离自身元素最近的经过定位的父级元素';
 /* #endif */
 
 icPrototype.offsetTop = function () {
@@ -159,6 +159,29 @@ icPrototype.offsetLeft = function () {
 };
 /* #if icNote === 'exist' */
 icPrototype.offsetLeft.icDesc = '只读,相对于版面或由 offsetParent 属性指定的父坐标的计算左侧位置，返回整型，单位像素';
+/* #endif */
+
+icPrototype.on = function (event, cb, useCapture = false) {
+    var events = event instanceof(Array) ? event : event.split(' ');
+    this.forEach(function (element) {
+        events.forEach(function (eventItem) {
+            if(element.addEventListener) {
+                element.addEventListener(eventItem, cb, useCapture);
+            } else if(element.attachEvent){
+                element.attachEvent("on" + eventItem, cb);
+            }else{
+                element["on" + eventItem] = cb;
+            }
+        });
+    });
+};
+/* #if icNote === 'exist' */
+icPrototype.on.icDesc = '绑定事件如：click hover ..., 参数：string or array, ' +
+    '\nuseCapture: ' +
+    '\n[1]true 的触发顺序总是在 false 之前' +
+    '\n[2]如果多个均为 true，则外层的触发先于内层' +
+    '\n[3]如果多个均为 false，则内层的触发先于外层';
+
 /* #endif */
 
 

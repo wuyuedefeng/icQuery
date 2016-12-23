@@ -1,4 +1,6 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+"use strict";
+
 function createXmlHttpRequestObj() {
     var xmlHttp = null;
     try {
@@ -123,9 +125,11 @@ module.exports = {
 };
 
 },{}],2:[function(require,module,exports){
+'use strict';
+
 var tools = require('./_tools');
 var http = {
-    get: function (config, onSuccess, onError) {
+    get: function get(config, onSuccess, onError) {
         if (typeof config == 'string') {
             config = {
                 url: config
@@ -134,19 +138,19 @@ var http = {
         config.method = 'GET';
         http.request(config, onSuccess, onError);
     },
-    post: function (config, onSuccess, onError) {
+    post: function post(config, onSuccess, onError) {
         config.method = "POST";
         http.request(config, onSuccess, onError);
     },
-    put: function (config, onSuccess, onError) {
+    put: function put(config, onSuccess, onError) {
         config.method = "PUT";
         http.request(config, onSuccess, onError);
     },
-    delete: function (config, onSuccess, onError) {
+    delete: function _delete(config, onSuccess, onError) {
         config.method = "DELETE";
         http.request(config, onSuccess, onError);
     },
-    request: function (config, onSuccess, onError) {
+    request: function request(config, onSuccess, onError) {
         // 统一初始化config参数
         tools.handleConfig(config, onSuccess, onError);
 
@@ -207,6 +211,8 @@ var http = {
 module.exports = http;
 
 },{"./_tools":1}],3:[function(require,module,exports){
+'use strict';
+
 function IcArray() {}
 var icPrototype = [];
 IcArray.prototype = icPrototype;
@@ -347,7 +353,7 @@ icPrototype.offsetParent = function () {
     return icArray;
 };
 /* #if icNote === 'exist' */
-icPrototype.offsetParent.icDesc = '与当前元素最近的经过定位(position不等于static)的父级元素, 主要分为' + '【1】元素自身有fixed定位，offsetParent的结果为body' + '【2】元素自身无fixed定位，且父级元素都未经过定位，offsetParent的结果为body' + '【3】元素自身无fixed定位，且父级元素存在经过定位的元素，offsetParent的结果为离自身元素最近的经过定位的父级元素';
+icPrototype.offsetParent.icDesc = '与当前元素最近的经过定位(position不等于static)的父级元素, 主要分为' + '\n【1】元素自身有fixed定位，offsetParent的结果为body' + '\n【2】元素自身无fixed定位，且父级元素都未经过定位，offsetParent的结果为body' + '\n【3】元素自身无fixed定位，且父级元素存在经过定位的元素，offsetParent的结果为离自身元素最近的经过定位的父级元素';
 /* #endif */
 
 icPrototype.offsetTop = function () {
@@ -364,18 +370,43 @@ icPrototype.offsetLeft = function () {
 icPrototype.offsetLeft.icDesc = '只读,相对于版面或由 offsetParent 属性指定的父坐标的计算左侧位置，返回整型，单位像素';
 /* #endif */
 
+icPrototype.on = function (event, cb) {
+    var useCapture = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+
+    var events = event instanceof Array ? event : event.split(' ');
+    this.forEach(function (element) {
+        events.forEach(function (eventItem) {
+            if (element.addEventListener) {
+                element.addEventListener(eventItem, cb, useCapture);
+            } else if (element.attachEvent) {
+                element.attachEvent("on" + eventItem, cb);
+            } else {
+                element["on" + eventItem] = cb;
+            }
+        });
+    });
+};
+/* #if icNote === 'exist' */
+icPrototype.on.icDesc = '绑定事件如：click hover ..., 参数：string or array, ' + '\nuseCapture: ' + '\n[1]true 的触发顺序总是在 false 之前' + '\n[2]如果多个均为 true，则外层的触发先于内层' + '\n[3]如果多个均为 false，则内层的触发先于外层';
+
+/* #endif */
+
 module.exports = {
     IcArray: IcArray,
     createIcArray: createIcArray
 };
 
 },{}],4:[function(require,module,exports){
+'use strict';
+
 module.exports = function $ic(query) {
     var icArray = require('./_createIcArray').createIcArray();
     return icArray._query(query);
 };
 
 },{"./_createIcArray":3}],5:[function(require,module,exports){
+'use strict';
+
 (function () {
     // 获取ic
     var $ic = require('./ic/ic');
