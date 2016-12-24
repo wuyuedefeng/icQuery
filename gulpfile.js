@@ -9,7 +9,8 @@ gulp.task('es6ToEs5', function() {
     return browserify('./src/main.js')
         .transform('conditionalify', {
             context: {
-                icNote: 'exist'
+                icNote: 'exist',
+                icArgs: 'exist'
             }
         })
         .transform(babelify)
