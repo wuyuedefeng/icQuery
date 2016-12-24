@@ -27,9 +27,13 @@
     var result = $ic('#insert');
     console.log(result);
 
-    $ic('#insert').one('click', function (event) {
-        console.log('one', event);
-    });
+    function onDo() {
+        console.log('onDo');
+
+        $ic('#insert').off('click', onDo);;
+    }
+
+    $ic('#insert').on('click', onDo);;
 
     $ic.http.get('http://www.weather.com.cn/data/sk/101010100.html',function (data) {
         console.log(data);
