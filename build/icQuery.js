@@ -417,7 +417,7 @@ icPrototype.on = function (event, cb) {
     bindEvents(this, events, cb, useCapture);
 };
 /* #if icNote === 'exist' */
-icPrototype.on.icDesc = '绑定事件如：click hover ..., 参数：event: string or array, ' + '\nuseCapture: ' + '\n[1]true 的触发顺序总是在 false 之前' + '\n[2]如果多个均为 true，则外层的触发先于内层' + '\n[3]如果多个均为 false，则内层的触发先于外层';
+icPrototype.on.icDesc = '绑定事件如：click hover ..., 参数：event: string or array, ' + '\nuseCapture: ' + '\n[1]true 的触发顺序总是在 false 之前' + '\n[2]如果多个均为 true，则外层的触发先于内层' + '\n[3]如果多个均为 false，则内层的触发先于外层' + '\n 解除绑定 off ';
 /* #endif */
 
 icPrototype.one = function (event, cb) {
@@ -441,7 +441,7 @@ icPrototype.off = function (event, cb) {
     unbindEvents(this, events, cb, useCapture);
 };
 /* #if icNote === 'exist' */
-icPrototype.off.icDesc = '绑定事件如：click hover ..., 参数：event: string or array, ' + '\nuseCapture: ' + '\n[1]true 的触发顺序总是在 false 之前' + '\n[2]如果多个均为 true，则外层的触发先于内层' + '\n[3]如果多个均为 false，则内层的触发先于外层';
+icPrototype.off.icDesc = '解除绑定事件如：click hover ..., 参数：event: string or array, ' + '\nuseCapture: ' + '\n[1]true 的触发顺序总是在 false 之前' + '\n[2]如果多个均为 true，则外层的触发先于内层' + '\n[3]如果多个均为 false，则内层的触发先于外层';
 
 /* #endif */
 
