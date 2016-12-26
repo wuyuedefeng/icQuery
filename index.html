@@ -18,14 +18,17 @@
     <span class="abc">out abc</span>
     <div class="test">test <i class="abc"></i></div>
     <div id="insert" class="c1 c2 c3">
-        inser
+        insert
         <div><span class="b"></span></div>
         <span class="a"></span>
     </div>
 </body>
 <script>
     var result = $ic('#insert');
-    console.log(result);
+
+    var dom = document.createElement('span');
+    console.log($ic(dom));
+
 
     function onDo() {
         console.log('onDo');

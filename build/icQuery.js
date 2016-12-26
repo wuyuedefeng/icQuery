@@ -234,6 +234,7 @@ function createIcArray() {
 icPrototype._query = function (query, rootElement) {
     rootElement = rootElement || document;
     if (typeof query == 'string') {
+        // query是dom对象
         if (/^(\.|#).+/i.test(query)) {
             // 首字母以 . 或者 # 开头
             var doms = rootElement.querySelectorAll(query);
@@ -241,11 +242,14 @@ icPrototype._query = function (query, rootElement) {
                 Array.prototype.push.apply(this, doms);
             }
         } else if (/^[a-z]+$/i.test(query)) {
+            // 假如是 a-z的字符串，查询dom标签
             var doms = rootElement.querySelectorAll(query);
             if (doms && doms.length) {
                 Array.prototype.push.apply(this, doms);
             }
         }
+    } else if (query instanceof HTMLElement) {
+        this.push(query);
     }
     return this;
 };
