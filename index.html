@@ -24,9 +24,15 @@
     </div>
 
     <input id="file" type="file">
+
+    <form action="http://beta.xcase.com.cn/Api/uploadOrganizationImage" enctype="multipart/form-data" method="post">
+        <input type="file" name="fileToUpload">
+        <input type="submit" value="submit">
+    </form>
 </body>
 <script>
 
+    console.log($ic('#file'));
     $ic('#file').on('change', function (e) {
         var file = e.target.files[0];
         $ic.http.upload({

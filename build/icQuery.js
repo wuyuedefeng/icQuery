@@ -211,10 +211,8 @@ var http = {
          value为自定义的头部字段的值。
          该方法的调用必须在调用open()方法之后且在调用send()方法之前。
          */
-        if (/post|put|delete/i.test('get')) {
-            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-        } else if (/upload/i) {
-            xhr.setRequestHeader('Content-type', 'multipart/form-data');
+        if (/post|put|delete/i.test(config.method)) {
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         }
         for (var key in config.headers) {
             xhr.setRequestHeader(key, config.headers[key]);
