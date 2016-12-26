@@ -22,26 +22,47 @@
         <div><span class="b"></span></div>
         <span class="a"></span>
     </div>
+
+    <input id="file" type="file">
 </body>
 <script>
-    var result = $ic('#insert');
 
-    var dom = document.createElement('span');
-    console.log($ic(dom));
+    $ic('#file').on('change', function (e) {
+        var file = e.target.files[0];
+        $ic.http.upload({
+            url: 'http://beta.xcase.com.cn/Api/uploadOrganizationImage',
+            data: {
+                fileToUpload: file
+            },
+            onEnd: function (isErr, data) {
+                console.log(isErr, data);
+            }
+        })
+    });
 
+//    var result = $ic('#insert');
+//
+//    var dom = document.createElement('span');
+//    console.log($ic(dom));
+//
+//
+//    function onDo() {
+//        console.log('onDo');
+//
+//        $ic('#insert').off('click', onDo);;
+//    }
+//
+//    $ic('#insert').on('click', onDo);;
 
-    function onDo() {
-        console.log('onDo');
-
-        $ic('#insert').off('click', onDo);;
-    }
-
-    $ic('#insert').on('click', onDo);;
-
-    $ic.http.get('http://www.weather.com.cn/data/sk/101010100.html',function (data) {
-        console.log(data);
-    }, function (errData) {
-        console.log(errData);
-    })
+//    $ic.http.get('http://www.weather.com.cn/data1/sk/101010100.html',function (data) {
+//        console.log(data);
+//    }, function (errData) {
+//        console.log(errData);
+//    })
+$ic.http.get('http://beta.xcase.com.cn/Api/getRegions?rid=11',function (data) {
+    console.log(data);
+}, function (errData) {
+    console.log(errData);
+});
 </script>
 </html>

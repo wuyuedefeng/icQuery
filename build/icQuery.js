@@ -150,6 +150,10 @@ var http = {
         config.method = "DELETE";
         http.request(config, onSuccess, onError);
     },
+    upload: function upload(config, onSuccess, onError) {
+        config.method = "UPLOAD";
+        http.request(config, onSuccess, onError);
+    },
     request: function request(config, onSuccess, onError) {
         // 统一初始化config参数
         tools.handleConfig(config, onSuccess, onError);
@@ -158,10 +162,21 @@ var http = {
         var xhr = tools.createXmlHttpRequestObj();
         config.xhr = xhr;
 
-        // 进度条监听
-        xhr.onprogress = config._onprogress;
+        if (/get|post|put|delete/i.test(config.method)) {
+            // get post put delete
+            // 进度条监听
+            xhr.onprogress = config._onprogress;
+        } else if (/upload/i.test(config.method)) {
+            // upload
+            //【上传进度调用方法实现】
+            xhr.upload.onprogress = config._onprogress;
+        }
         // 状态改变监听
         xhr.onreadystatechange = config._onreadystatechange;
+
+        // xhr.onload = function () {
+        //   console.log('onload: ', this.responseText);
+        // };
 
         // 超时
         if (config.async && config.timeout) {
@@ -183,7 +198,12 @@ var http = {
             // url 上没有任何参数
             urlParams = '?' + urlParams;
         }
-        xhr.open(config.method, config.url + urlParams, config.async);
+        // 获取请求方式
+        var method = config.method;
+        if (/upload/i.test(method)) {
+            method = 'POST';
+        }
+        xhr.open(method, config.url + urlParams, config.async);
 
         /* .setRequestHeader("name","value"):设置自定义的请求头部信息。
          参数:name为自定义的头部字段的名称
@@ -191,15 +211,27 @@ var http = {
          value为自定义的头部字段的值。
          该方法的调用必须在调用open()方法之后且在调用send()方法之前。
          */
-        if (!/get/i.test('get')) {
+        if (/post|put|delete/i.test('get')) {
             xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        } else if (/upload/i) {
+            xhr.setRequestHeader('Content-type', 'multipart/form-data');
         }
         for (var key in config.headers) {
             xhr.setRequestHeader(key, config.headers[key]);
         }
 
-        // .send(data):将请求发送到服务器。参数data是作为请求主体发送的数据，若不需要传数据，即data为null。服务器在收到响应后，响应的数据会自动填充XHR对象的属性。相关属性有responseText、responseXML、status、statusText、readyStatus
-        xhr.send(tools.handleObjToParams(config.data) || null);
+        if (/get|post|put|delete/i.test(config.method)) {
+            // get post put delete
+            // .send(data):将请求发送到服务器。参数data是作为请求主体发送的数据，若不需要传数据，即data为null。服务器在收到响应后，响应的数据会自动填充XHR对象的属性。相关属性有responseText、responseXML、status、statusText、readyStatus
+            xhr.send(tools.handleObjToParams(config.data) || null);
+        } else if (/upload/i.test(config.method)) {
+            // upload
+            var form = new FormData(); // FormData 对象
+            for (var key in config.data) {
+                form.append(key, config.data[key]);
+            }
+            xhr.send(form);
+        }
 
         //.abort():在接收到响应之前取消异步请求。
         // xhr.abort()
