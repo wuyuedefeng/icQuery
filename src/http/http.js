@@ -10,6 +10,11 @@ var http = {
         http.request(config, onSuccess, onError);
     },
     post: function (config, onSuccess, onError) {
+        if(typeof config == 'string'){
+            config = {
+                url: config
+            };
+        }
         config.method = "POST";
         http.request(config, onSuccess, onError);
     },

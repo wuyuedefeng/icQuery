@@ -139,6 +139,11 @@ var http = {
         http.request(config, onSuccess, onError);
     },
     post: function post(config, onSuccess, onError) {
+        if (typeof config == 'string') {
+            config = {
+                url: config
+            };
+        }
         config.method = "POST";
         http.request(config, onSuccess, onError);
     },
@@ -243,6 +248,10 @@ module.exports = http;
 },{"./_tools":1}],3:[function(require,module,exports){
 'use strict';
 
+/**
+ * 用来实例IcArray
+ * @constructor
+ */
 function IcArray() {}
 var icPrototype = [];
 IcArray.prototype = icPrototype;
@@ -485,11 +494,19 @@ module.exports = {
 };
 
 },{}],4:[function(require,module,exports){
-'use strict';
+"use strict";
 
-module.exports = function $ic(query) {
-    var icArray = require('./_createIcArray').createIcArray();
-    return icArray._query(query);
+module.exports = function $ic(some) {
+    if (typeof some == 'function') {
+        var afterPageLoaded = function afterPageLoaded() {
+            some($ic);
+        };
+
+        if (window.addEventListener) window.addEventListener("load", afterPageLoaded, false);else if (window.attachEvent) window.attachEvent("onload", afterPageLoaded);else window.onload = afterPageLoaded;
+    } else {
+        var icArray = require('./_createIcArray').createIcArray();
+        return icArray._query(some);
+    }
 };
 
 },{"./_createIcArray":3}],5:[function(require,module,exports){
@@ -502,11 +519,10 @@ module.exports = function $ic(query) {
     // 对ic添加静态方法
     $ic.http = require('./http/http');
 
-    if (window['$']) {
-        window['$'].ic = $ic;
-    } else {
+    if (!window['$ic']) {
         window['$ic'] = $ic;
     }
+    window['icQuery'] = $ic;
 })();
 
 },{"./http/http":2,"./ic/ic":4}]},{},[5]);

@@ -6,10 +6,9 @@
     $ic.http = require('./http/http');
 
 
-    if(window['$']){
-        window['$'].ic = $ic;
-    }else {
+    if(!window['$ic']){
         window['$ic'] = $ic;
     }
+    window['icQuery'] = $ic;
 })();
 

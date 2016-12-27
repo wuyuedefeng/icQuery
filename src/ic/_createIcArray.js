@@ -1,3 +1,7 @@
+/**
+ * 用来实例IcArray
+ * @constructor
+ */
 function IcArray() {
 
 }

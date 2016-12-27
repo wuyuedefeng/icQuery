@@ -6,8 +6,9 @@
  $ic.http.post(config, onSuccess, onError);
  $ic.http.put(config, onSuccess, onError);
  $ic.http.delete(config, onSuccess, onError);
+ $ic.http.upload(config, onSuccess, onError);
  // that all call request method
-  $ic.http.request(config, onSuccess, onError); 
+ $ic.http.request(config, onSuccess, onError); 
 ```
 
 

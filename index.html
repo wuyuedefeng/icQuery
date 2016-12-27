@@ -22,29 +22,24 @@
         <div><span class="b"></span></div>
         <span class="a"></span>
     </div>
-
-    <input id="file" type="file">
-
-    <form action="http://beta.xcase.com.cn/Api/uploadOrganizationImage" enctype="multipart/form-data" method="post">
-        <input type="file" name="fileToUpload">
-        <input type="submit" value="submit">
-    </form>
 </body>
 <script>
 
-    console.log($ic('#file'));
-    $ic('#file').on('change', function (e) {
-        var file = e.target.files[0];
-        $ic.http.upload({
-            url: 'http://beta.xcase.com.cn/Api/uploadOrganizationImage',
-            data: {
-                fileToUpload: file
-            },
-            onEnd: function (isErr, data) {
-                console.log(isErr, data);
-            }
-        })
-    });
+
+
+//    console.log($ic('#file'));
+//    $ic('#file').on('change', function (e) {
+//        var file = e.target.files[0];
+//        $ic.http.upload({
+//            url: 'http://beta.xcase.com.cn/Api/uploadOrganizationImage',
+//            data: {
+//                fileToUpload: file
+//            },
+//            onEnd: function (isErr, data) {
+//                console.log(isErr, data);
+//            }
+//        })
+//    });
 
 //    var result = $ic('#insert');
 //
@@ -65,10 +60,10 @@
 //    }, function (errData) {
 //        console.log(errData);
 //    })
-$ic.http.get('http://beta.xcase.com.cn/Api/getRegions?rid=11',function (data) {
-    console.log(data);
-}, function (errData) {
-    console.log(errData);
-});
+//$ic.http.get('http://beta.xcase.com.cn/Api/getRegions?rid=11',function (data) {
+//    console.log(data);
+//}, function (errData) {
+//    console.log(errData);
+//});
 </script>
 </html>
