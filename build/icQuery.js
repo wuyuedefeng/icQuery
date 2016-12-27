@@ -248,6 +248,8 @@ module.exports = http;
 },{"./_tools":1}],3:[function(require,module,exports){
 'use strict';
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 /**
  * 用来实例IcArray
  * @constructor
@@ -406,6 +408,28 @@ icPrototype.offsetTop = function () {
 icPrototype.offsetTop.icDesc = '只读,相对于版面或由 offsetParent 属性指定的父坐标的计算上侧位置，返回整型，单位px';
 /* #endif */
 
+icPrototype.offsetToBody = function () {
+    var elem = this.length && this[0];
+    var sumOffsetLeft = 0;
+    var sumOffsetTop = 0;
+    while (elem) {
+        sumOffsetLeft += elem.offsetLeft;
+        sumOffsetTop += elem.offsetTop;
+        if (/body/i.test(elem.tagName)) {
+            break;
+        } else {
+            elem = elem.offsetParent;
+        }
+    }
+    return {
+        left: sumOffsetLeft,
+        top: sumOffsetTop
+    };
+};
+/* #if icNote === 'exist' */
+icPrototype.offsetToBody.icDesc = '只读, 计算元素offsetLeft, offsetTop偏移到body元素的距离和，返回整型，单位px';
+/* #endif */
+
 icPrototype.offsetLeft = function () {
     return this.length && this[0].offsetLeft || 0;
 };
@@ -413,14 +437,14 @@ icPrototype.offsetLeft = function () {
 icPrototype.offsetLeft.icDesc = '只读,相对于版面或由 offsetParent 属性指定的父坐标的计算左侧位置，返回整型，单位px';
 /* #endif */
 
-icPrototype.scrollTop = function (valInt) {
-    if (typeof valInt == 'number' && this.length) {
-        this[0].scrollTop = valInt;
+icPrototype.scrollTop = function (val) {
+    if (/number|string/i.test(typeof val === 'undefined' ? 'undefined' : _typeof(val)) && this.length) {
+        this[0].scrollTop = val;
     }
     return this.length && this[0].scrollTop || 0;
 };
 /* #if icNote === 'exist' */
-icPrototype.scrollTop.icDesc = '读写，元素滚动距离, 单位px';
+icPrototype.scrollTop.icDesc = '读写，获取或设置元素滚动距离,返回整数，赋值整数， 单位px';
 /* #endif */
 
 ////////////////////////////////////////////////////////////////////

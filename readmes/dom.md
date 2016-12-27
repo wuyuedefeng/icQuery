@@ -16,6 +16,8 @@
 * `scrollWidth` // 对象实际内容的宽度
 * `offsetLeft`  // 相对于版面或由 offsetParent 属性指定的父坐标的计算左侧位置，返回整型，单位像素
 * `offsetTop`   // 只读,相对于版面或由 offsetParent 属性指定的父坐标的计算上侧位置，返回整型，单位像素
+* `scrollTop`   // 读写，获取或设置元素滚动距离,返回整数，赋值整数， 单位px
+* `offsetToBody` // 元素 offsetLeft, offsetTop, 偏移到body标签的距离
 
 ### 事件绑定：
 * `on`：  绑定事件
