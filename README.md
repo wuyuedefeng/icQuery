@@ -1,7 +1,7 @@
 # icQuery
 
 - [http](https://github.com/wuyuedefeng/icQuery/blob/develop/readmes/http.md)
-- [http](https://github.com/wuyuedefeng/icQuery/blob/develop/readmes/dom.md)
+- [dom](https://github.com/wuyuedefeng/icQuery/blob/develop/readmes/dom.md)
 
 
 ### $ic.http
