@@ -396,23 +396,36 @@ icPrototype.offsetParent = function () {
     return icArray;
 };
 /* #if icNote === 'exist' */
-icPrototype.offsetParent.icDesc = '与当前元素最近的经过定位(position不等于static)的父级元素, 主要分为' + '\n【1】元素自身有fixed定位，offsetParent的结果为body' + '\n【2】元素自身无fixed定位，且父级元素都未经过定位，offsetParent的结果为body' + '\n【3】元素自身无fixed定位，且父级元素存在经过定位的元素，offsetParent的结果为离自身元素最近的经过定位的父级元素';
+icPrototype.offsetParent.icDesc = '与当前元素最近的经过定位(position不等于static)的父级元素, 主要分为' + '\n【1】元素自身有fixed定位，offsetParent的结果为body' + '\n【2】元素自身无fixed定位，且父级元素都未经过定位，offsetParent的结果为body' + '\n【3】元素自身无fixed定位，且父级元素存在经过定位的元素，offsetParent的结果为离自身元素最近的经过定位的父级px';
 /* #endif */
 
 icPrototype.offsetTop = function () {
     return this.length && this[0].offsetTop || 0;
 };
 /* #if icNote === 'exist' */
-icPrototype.offsetTop.icDesc = '只读,相对于版面或由 offsetParent 属性指定的父坐标的计算上侧位置，返回整型，单位像素';
+icPrototype.offsetTop.icDesc = '只读,相对于版面或由 offsetParent 属性指定的父坐标的计算上侧位置，返回整型，单位px';
 /* #endif */
 
 icPrototype.offsetLeft = function () {
     return this.length && this[0].offsetLeft || 0;
 };
 /* #if icNote === 'exist' */
-icPrototype.offsetLeft.icDesc = '只读,相对于版面或由 offsetParent 属性指定的父坐标的计算左侧位置，返回整型，单位像素';
+icPrototype.offsetLeft.icDesc = '只读,相对于版面或由 offsetParent 属性指定的父坐标的计算左侧位置，返回整型，单位px';
 /* #endif */
 
+icPrototype.scrollTop = function (valInt) {
+    if (typeof valInt == 'number' && this.length) {
+        this[0].scrollTop = valInt;
+    }
+    return this.length && this[0].scrollTop || 0;
+};
+/* #if icNote === 'exist' */
+icPrototype.scrollTop.icDesc = '读写，元素滚动距离, 单位px';
+/* #endif */
+
+////////////////////////////////////////////////////////////////////
+//    事件相关
+////////////////////////////////////////////////////////////////////
 function bindEvents(icArray, events, cb) {
     var useCapture = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
 
