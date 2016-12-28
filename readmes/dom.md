@@ -1,24 +1,26 @@
 ### dom查询
 * `$ic()`  // 获取节点，库所有dom方法都是根据`$ic`获取到dom节点后进行的
-* `find()`         // 根据查询子孙节点 内部使用`querySelectorAll`
-* `findOne()`      // 查询子孙中的第一个节点 内部使用`querySelector`
+* `find(expr)`     //  根据查询子孙节点 内部使用`querySelectorAll`
+* `findOne(expr)`  // 查询子孙中的第一个节点 内部使用`querySelector`
+* `children()`     // 查询所有儿子节点(不包括孙子) 内部使用js children
+* `parent()`       // 获取直接父亲节点(亲生父亲)
 * `offsetParent()` // 与当前元素最近的经过定位(position不等于static)的父级元素
 
 ### 管理类
-* `addClass`  // 添加类
-* `removeClass` // 移除类
-* `replaceClass` // 替换类 （先移除后添加）
-* `toggleClass` // 存在移除，不存在添加类
-* `containsClass` // 判断是否包含类
+* `addClass(className)`  // 添加类
+* `removeClass(className)` // 移除类
+* `replaceClass(removeClass, addClass)` // 替换类 （先移除 后添加）
+* `toggleClass(className)` // 存在移除，不存在添加类, 多各类单独判断
+* `containsClass(className)` // 判断是否包含类
 
 ### 获取属性（宽高..）
-* `clientWidth` // 对象可见的宽度，不包滚动条等边线，会随窗口的显示大小改变
-* `offsetWidth` // 对象的可见宽度，包滚动条等边线，会随窗口的显示大小改变
-* `scrollWidth` // 对象实际内容的宽度
-* `offsetLeft`  // 相对于版面或由 offsetParent 属性指定的父坐标的计算左侧位置，返回整型，单位像素
-* `offsetTop`   // 只读,相对于版面或由 offsetParent 属性指定的父坐标的计算上侧位置，返回整型，单位像素
-* `scrollTop`   // 读写，获取或设置元素滚动距离,返回整数，赋值整数， 单位px
-* `offsetToBody` // 元素 offsetLeft, offsetTop, 偏移到body标签的距离
+* `clientWidth()` // 对象可见的宽度，不包滚动条等边线，会随窗口的显示大小改变 返回`整型`
+* `offsetWidth()` // 对象的可见宽度，包滚动条等边线，会随窗口的显示大小改变 返回`整型`
+* `scrollWidth()` // 对象实际内容的宽度 返回`整型`
+* `offsetLeft()`  // 相对于版面或由 offsetParent 属性指定的父坐标的计算左侧位置，返回`整型`，单位像素
+* `offsetTop()`   // 只读,相对于版面或由 offsetParent 属性指定的父坐标的计算上侧位置，返回`整型`，单位像素
+* `scrollTop(val)`   // 读写，获取或设置元素滚动距离,返回整数，赋值`整数`， 单位px
+* `offsetToBody()` // 元素 offsetLeft, offsetTop, 偏移到body标签的距离
 
 ### 事件绑定：
 * `on`：  绑定事件

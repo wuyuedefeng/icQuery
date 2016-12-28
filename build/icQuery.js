@@ -267,42 +267,42 @@ function createIcArray() {
 }
 
 /**
- * 查找元素节点 $ic(query)
+ * 查找元素节点 $ic(expr)
  * $ic('#myId')  $ic('.myClass') $ic('div')
- * @param query :string
+ * @param expr :string
  * @param rootElement dom default document
  * @param isFindOne 是否只查询找到的第一个，默认查询所有
  */
-icPrototype._query = function (query, rootElement, isFindOne) {
+icPrototype._query = function (expr, rootElement, isFindOne) {
     rootElement = rootElement || document;
-    if (typeof query == 'string') {
-        // query是dom对象
-        // if (/^(\.|#|[a-z]).+/i.test(query)) { // 首字母以 . 或者 # 开头
+    if (typeof expr == 'string') {
+        // expr是dom对象
+        // if (/^(\.|\*|#|[a-z]).+/i.test(expr)) { // 首字母以 . * 或者 # 开头
+        //
+        // }
+
         var doms = [];
         if (isFindOne) {
-            doms = [rootElement.querySelector(query)];
+            doms = [rootElement.querySelector(expr)];
         } else {
-            doms = rootElement.querySelectorAll(query);
+            doms = rootElement.querySelectorAll(expr);
         }
         if (doms && doms.length) {
             Array.prototype.push.apply(this, doms);
         }
-        // }
-    } else if (query instanceof HTMLElement) {
-        this.push(query);
     }
     return this;
 };
 /**
  * 查询所有子节点
- * @param query: string
+ * @param expr: string
  * @returns icArray
  */
-icPrototype.find = function (query) {
-    query = query || '*';
+icPrototype.find = function (expr) {
+    expr = expr || '*';
     var icArray = createIcArray();
     this.forEach(function (element) {
-        icArray._query(query, element);
+        icArray._query(expr, element);
     });
     return icArray;
 };
@@ -310,15 +310,10 @@ icPrototype.find = function (query) {
 icPrototype.find.icDesc = '查询所有子孙节点,默认查询所有';
 /* #endif */
 
-/**
- * 查询所有子节点中的第一个
- * @param query: string
- * @returns icArray
- */
-icPrototype.findOne = function (query) {
+icPrototype.findOne = function (expr) {
     var icArray = createIcArray();
     this.forEach(function (element) {
-        icArray._query(query, element, true);
+        icArray._query(expr, element, true);
     });
     return icArray;
 };
@@ -326,6 +321,35 @@ icPrototype.findOne = function (query) {
 icPrototype.findOne.icDesc = '查询所有子孙节点中的第一个';
 /* #endif */
 
+icPrototype.children = function () {
+    var icArray = createIcArray();
+    this.forEach(function (element) {
+        Array.prototype.push.apply(icArray, element.children);
+    });
+    return icArray;
+};
+/* #if icNote === 'exist' */
+icPrototype.children.icDesc = '查询所有儿子节点(不包括孙子)';
+/* #endif */
+
+icPrototype.parent = function (expr) {
+    var icArray = createIcArray();
+    this.forEach(function (element) {
+        var parent = element.parentNode;
+        // nodeType: http://www.w3school.com.cn/jsref/prop_node_nodetype.asp
+        if (parent && parent.nodeType == 1) {
+            icArray.push(parent);
+        }
+    });
+    return icArray;
+};
+/* #if icNote === 'exist' */
+icPrototype.parent.icDesc = '获取直接父亲节点(亲生父亲)';
+/* #endif */
+
+////////////////////////////////////////////////////////////////////
+//    类操作相关
+////////////////////////////////////////////////////////////////////
 function operateClass(op, icArray, className, cb) {
     var classNames = className instanceof Array ? className : className.split(' ');
     icArray.forEach(function (element) {
@@ -549,20 +573,22 @@ module.exports = {
 },{}],4:[function(require,module,exports){
 'use strict';
 
-module.exports = function $ic(some) {
+module.exports = function $ic(expr) {
     var icArray = require('./_createIcArray').createIcArray();
-    if (typeof some == 'function') {
+    if (typeof expr == 'function') {
+        // 函数
         var afterPageLoaded = function afterPageLoaded() {
-            some($ic);
+            expr($ic);
         };
 
         if (window.addEventListener) window.addEventListener("load", afterPageLoaded, false);else if (window.attachEvent) window.attachEvent("onload", afterPageLoaded);else window.onload = afterPageLoaded;
-    } else if (some instanceof HTMLElement) {
-        icArray.push(some);
-        return icArray;
-    } else {
-        return icArray._query(some);
+    } else if (expr instanceof Element) {
+        // dom对象
+        icArray.push(expr);
+    } else if (typeof expr == 'string') {
+        icArray._query(expr); // 字符串
     }
+    return icArray;
 };
 
 },{"./_createIcArray":3}],5:[function(require,module,exports){

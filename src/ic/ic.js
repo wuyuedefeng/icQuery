@@ -1,17 +1,17 @@
-module.exports = function $ic(some) {
+module.exports = function $ic(expr) {
     var icArray = require('./_createIcArray').createIcArray();
-    if(typeof some == 'function'){
+    if(typeof expr == 'function'){  // 函数
         function afterPageLoaded() {
-            some($ic)
+            expr($ic)
         }
         if (window.addEventListener) window.addEventListener("load", afterPageLoaded, false);
         else if (window.attachEvent) window.attachEvent("onload", afterPageLoaded);
         else window.onload = afterPageLoaded;
-    } else if(some instanceof HTMLElement){
-        icArray.push(some);
-        return icArray;
+    } else if(expr instanceof Element){ // dom对象
+        icArray.push(expr);
     }
-    else {
-        return icArray._query(some);
+    else if(typeof expr == 'string'){
+        icArray._query(expr);  // 字符串
     }
+    return icArray;
 };
