@@ -1,6 +1,7 @@
 ### dom查询
 * `$ic()`  // 获取节点，库所有dom方法都是根据`$ic`获取到dom节点后进行的
-* `find()`         // 根据查询子孙节点
+* `find()`         // 根据查询子孙节点 内部使用`querySelectorAll`
+* `findOne()`      // 查询子孙中的第一个节点 内部使用`querySelector`
 * `offsetParent()` // 与当前元素最近的经过定位(position不等于static)的父级元素
 
 ### 管理类

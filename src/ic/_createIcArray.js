@@ -21,22 +21,23 @@ function createIcArray() {
  * $ic('#myId')  $ic('.myClass') $ic('div')
  * @param query :string
  * @param rootElement dom default document
+ * @param isFindOne 是否只查询找到的第一个，默认查询所有
  */
-icPrototype._query = function (query, rootElement) {
+icPrototype._query = function (query, rootElement, isFindOne) {
     rootElement = rootElement || document;
     if (typeof query == 'string') {
         // query是dom对象
-        if (/^(\.|#).+/i.test(query)) { // 首字母以 . 或者 # 开头
-            var doms = rootElement.querySelectorAll(query);
+        // if (/^(\.|#|[a-z]).+/i.test(query)) { // 首字母以 . 或者 # 开头
+            var doms = [];
+            if(isFindOne){
+                doms = [rootElement.querySelector(query)];
+            }else {
+                doms = rootElement.querySelectorAll(query);
+            }
             if (doms && doms.length) {
                 Array.prototype.push.apply(this, doms);
             }
-        } else if(/^[a-z]+$/i.test(query)){ // 假如是 a-z的字符串，查询dom标签
-            var doms = rootElement.querySelectorAll(query);
-            if (doms && doms.length) {
-                Array.prototype.push.apply(this, doms);
-            }
-        }
+        // }
     }else if (query instanceof(HTMLElement)){
         this.push(query);
     }
@@ -48,6 +49,7 @@ icPrototype._query = function (query, rootElement) {
  * @returns icArray
  */
 icPrototype.find = function(query) {
+    query = query || '*';
     var icArray = createIcArray();
     this.forEach(function (element) {
         icArray._query(query, element);
@@ -55,7 +57,23 @@ icPrototype.find = function(query) {
     return icArray;
 };
 /* #if icNote === 'exist' */
-icPrototype.find.icDesc = '查询所有子孙节点';
+icPrototype.find.icDesc = '查询所有子孙节点,默认查询所有';
+/* #endif */
+
+/**
+ * 查询所有子节点中的第一个
+ * @param query: string
+ * @returns icArray
+ */
+icPrototype.findOne = function(query) {
+    var icArray = createIcArray();
+    this.forEach(function (element) {
+        icArray._query(query, element, true);
+    });
+    return icArray;
+};
+/* #if icNote === 'exist' */
+icPrototype.findOne.icDesc = '查询所有子孙节点中的第一个';
 /* #endif */
 
 
