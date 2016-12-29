@@ -3,7 +3,7 @@
 * `find(expr)`     //  根据查询子孙节点 内部使用`querySelectorAll`
 * `findOne(expr)`  // 查询子孙中的第一个节点 内部使用`querySelector`
 * `children()`     // 查询所有儿子节点(不包括孙子) 内部使用js children
-* `parent()`       // 获取直接父亲节点(亲生父亲)
+* `parent(expr)`   // 获取直接父亲节点(亲生父亲),传递expr表示查找某种类型的直接父亲节点
 * `offsetParent()` // 与当前元素最近的经过定位(position不等于static)的父级元素
 
 ### 管理类
