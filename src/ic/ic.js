@@ -1,4 +1,4 @@
-module.exports = function $ic(expr) {
+function $ic(expr) {
     var icArray = require('./_createIcArray').createIcArray();
     if(typeof expr == 'function'){  // 函数
         function afterPageLoaded() {
@@ -14,4 +14,22 @@ module.exports = function $ic(expr) {
         icArray._query(expr);  // 字符串
     }
     return icArray;
+}
+
+////////////////////////////////////////////////////////////////////
+//    数组拓展
+////////////////////////////////////////////////////////////////////
+Array.prototype.$icUniq = function () {
+    var handle = this.filter(function (value, index, self) {
+        return self.indexOf(value) === index;
+    });
+    // handle = [...new Set(data)];  // if support es6
+    var icArray = handle;
+    if(this.identify == 'IcArray'){
+        icArray = $ic();
+        Array.prototype.push.apply(icArray, handle);
+    }
+    return icArray;
 };
+
+module.exports = $ic;

@@ -256,6 +256,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
  */
 function IcArray() {}
 var icPrototype = [];
+icPrototype.identify = 'IcArray';
 IcArray.prototype = icPrototype;
 /**
  * 创建icArray数组
@@ -343,7 +344,7 @@ icPrototype.parent = function (expr) {
             icArray.push(parent);
         }
     });
-    return icArray;
+    return icArray.$icUniq();
 };
 /* #if icNote === 'exist' */
 icPrototype.parent.icDesc = '获取直接父亲节点(亲生父亲)，传递expr表示查找某种类型的直接父亲节点';
@@ -575,7 +576,7 @@ module.exports = {
 },{}],4:[function(require,module,exports){
 'use strict';
 
-module.exports = function $ic(expr) {
+function $ic(expr) {
     var icArray = require('./_createIcArray').createIcArray();
     if (typeof expr == 'function') {
         // 函数
@@ -591,7 +592,25 @@ module.exports = function $ic(expr) {
         icArray._query(expr); // 字符串
     }
     return icArray;
+}
+
+////////////////////////////////////////////////////////////////////
+//    数组拓展
+////////////////////////////////////////////////////////////////////
+Array.prototype.$icUniq = function () {
+    var handle = this.filter(function (value, index, self) {
+        return self.indexOf(value) === index;
+    });
+    // handle = [...new Set(data)];  // if support es6
+    var icArray = handle;
+    if (this.identify == 'IcArray') {
+        icArray = $ic();
+        Array.prototype.push.apply(icArray, handle);
+    }
+    return icArray;
 };
+
+module.exports = $ic;
 
 },{"./_createIcArray":3}],5:[function(require,module,exports){
 'use strict';
@@ -606,7 +625,7 @@ module.exports = function $ic(expr) {
     if (!window['$ic']) {
         window['$ic'] = $ic;
     }
-    window['icQuery'] = $ic;
+    window['$icQuery'] = $ic;
 })();
 
 },{"./http/http":2,"./ic/ic":4}]},{},[5]);

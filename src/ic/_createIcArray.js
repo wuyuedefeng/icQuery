@@ -6,6 +6,7 @@ function IcArray() {
 
 }
 var icPrototype = [];
+icPrototype.identify = 'IcArray';
 IcArray.prototype = icPrototype;
 /**
  * 创建icArray数组
@@ -93,7 +94,7 @@ icPrototype.parent = function(expr) {
             icArray.push(parent);
         }
     });
-    return icArray;
+    return icArray.$icUniq();
 };
 /* #if icNote === 'exist' */
 icPrototype.parent.icDesc = '获取直接父亲节点(亲生父亲)，传递expr表示查找某种类型的直接父亲节点';

@@ -9,6 +9,6 @@
     if(!window['$ic']){
         window['$ic'] = $ic;
     }
-    window['icQuery'] = $ic;
+    window['$icQuery'] = $ic;
 })();
 
