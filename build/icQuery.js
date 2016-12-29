@@ -355,6 +355,27 @@ icPrototype.parent = function (expr) {
 icPrototype.parent.icDesc = '获取直接父亲节点(亲生父亲)，传递expr表示查找某种类型的直接父亲节点';
 /* #endif */
 
+icPrototype.parents = function (expr) {
+    var parentsElements = this.parent();
+    if (parentsElements.length) {
+        Array.prototype.push.apply(parentsElements, parentsElements.parents());
+    }
+    if (expr) {
+        var exprElements = createIcArray()._query(expr);
+        var icArray = createIcArray();
+        exprElements.forEach(function (item) {
+            if (parentsElements.indexOf(item) != -1) {
+                icArray.push(item);
+            }
+        });
+        parentsElements = icArray;
+    }
+    return parentsElements.$icUniq();
+};
+/* #if icNote === 'exist' */
+icPrototype.parents.icDesc = '获取所有祖先(父亲，爷爷..)，传递expr表示查找某种类型的祖先节点';
+/* #endif */
+
 ////////////////////////////////////////////////////////////////////
 //    类操作相关
 ////////////////////////////////////////////////////////////////////
