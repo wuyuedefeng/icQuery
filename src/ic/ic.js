@@ -25,7 +25,7 @@ Array.prototype.$icUniq = function () {
     });
     // handle = [...new Set(data)];  // if support es6
     var icArray = handle;
-    if(this.identify == 'IcArray'){
+    if(this.__identify__ == 'IcArray'){
         icArray = $ic();
         Array.prototype.push.apply(icArray, handle);
     }

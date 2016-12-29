@@ -6,7 +6,7 @@ function IcArray() {
 
 }
 var icPrototype = [];
-icPrototype.identify = 'IcArray';
+icPrototype.__identify__ = 'IcArray';
 IcArray.prototype = icPrototype;
 /**
  * 创建icArray数组
@@ -84,14 +84,19 @@ icPrototype.children.icDesc = '查询所有儿子节点(不包括孙子)';
 /* #endif */
 
 icPrototype.parent = function(expr) {
-    var exprElements = createIcArray()._query(expr);
-
     var icArray = createIcArray();
     this.forEach(function (element) {
         var parent = element.parentNode;
         // nodeType: http://www.w3school.com.cn/jsref/prop_node_nodetype.asp
-        if(parent && parent.nodeType == 1 && (!expr || exprElements.indexOf(parent) != -1)){
-            icArray.push(parent);
+        if(parent && parent.nodeType == 1){
+            if(!expr){
+                icArray.push(parent);
+            }else {
+                var exprElements = createIcArray()._query(expr);
+                if(exprElements.indexOf(parent) != -1){
+                    icArray.push(parent);
+                }
+            }
         }
     });
     return icArray.$icUniq();
