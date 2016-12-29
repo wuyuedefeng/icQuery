@@ -325,7 +325,11 @@ icPrototype.findOne.icDesc = '查询所有子孙节点中的第一个';
 icPrototype.children = function () {
     var icArray = createIcArray();
     this.forEach(function (element) {
-        Array.prototype.push.apply(icArray, element.children);
+        element.childNodes.forEach(function (childNode) {
+            if (childNode.nodeType == 1) {
+                icArray.push(childNode);
+            }
+        });
     });
     return icArray;
 };
@@ -374,6 +378,11 @@ icPrototype.parents = function (expr) {
 };
 /* #if icNote === 'exist' */
 icPrototype.parents.icDesc = '获取所有祖先(父亲，爷爷..)，传递expr表示查找某种类型的祖先节点';
+/* #endif */
+
+icPrototype.siblings = function () {};
+/* #if icNote === 'exist' */
+icPrototype.siblings.icDesc = '查找兄弟节点，不分前后';
 /* #endif */
 
 ////////////////////////////////////////////////////////////////////
