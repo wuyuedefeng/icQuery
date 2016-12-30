@@ -238,14 +238,7 @@ icPrototype.offsetParent.icDesc = '与当前元素最近的经过定位(position
     '\n【3】元素自身无fixed定位，且父级元素存在经过定位的元素，offsetParent的结果为离自身元素最近的经过定位的父级px';
 /* #endif */
 
-icPrototype.offsetTop = function () {
-    return this.length && this[0].offsetTop || 0;
-};
-/* #if icNote === 'exist' */
-icPrototype.offsetTop.icDesc = '只读,相对于版面或由 offsetParent 属性指定的父坐标的计算上侧位置，返回整型，单位px';
-/* #endif */
-
-icPrototype.offsetToBody = function () {
+icPrototype.offset = function () {
     var elem = this.length && this[0];
     var sumOffsetLeft = 0;
     var sumOffsetTop = 0;
@@ -264,15 +257,21 @@ icPrototype.offsetToBody = function () {
     };
 };
 /* #if icNote === 'exist' */
-icPrototype.offsetToBody.icDesc = '只读, 计算元素offsetLeft, offsetTop偏移到body元素的距离和，返回整型，单位px';
+icPrototype.offset.icDesc = '只读, 计算元素offsetLeft, offsetTop偏移到body元素的距离和，返回{left: num, top: num}，单位px';
 /* #endif */
 
-icPrototype.offsetLeft = function () {
-    return this.length && this[0].offsetLeft || 0;
+
+icPrototype.position = function () {
+    return {
+        left: this.length && this[0].offsetLeft || 0,
+        top: this.length && this[0].offsetTop || 0
+    };
 };
 /* #if icNote === 'exist' */
-icPrototype.offsetLeft.icDesc = '只读,相对于版面或由 offsetParent 属性指定的父坐标的计算左侧位置，返回整型，单位px';
+icPrototype.position.icDesc = '只读,相对于版面或由 offsetParent 属性指定的父坐标的计算上侧和左侧位置，返回{left: num, top: num}，单位px';
 /* #endif */
+
+
 
 icPrototype.scrollTop = function (val) {
     if(/number|string/i.test(typeof val) && this.length){

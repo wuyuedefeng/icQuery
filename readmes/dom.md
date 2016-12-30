@@ -18,10 +18,9 @@
 * `clientWidth()` // 对象可见的宽度，不包滚动条等边线，会随窗口的显示大小改变 返回`整型`
 * `offsetWidth()` // 对象的可见宽度，包滚动条等边线，会随窗口的显示大小改变 返回`整型`
 * `scrollWidth()` // 对象实际内容的宽度 返回`整型`
-* `offsetLeft()`  // 相对于版面或由 offsetParent 属性指定的父坐标的计算左侧位置，返回`整型`，单位像素
-* `offsetTop()`   // 只读,相对于版面或由 offsetParent 属性指定的父坐标的计算上侧位置，返回`整型`，单位像素
 * `scrollTop(val)`   // 读写，获取或设置元素滚动距离,返回整数，赋值`整数`， 单位px
-* `offsetToBody()` // 元素 offsetLeft, offsetTop, 偏移到body标签的距离
+* `offset()`         // 只读 元素 offsetLeft, offsetTop, 偏移到body标签的距离 return {left: num, top: num}
+* `position()`      // 只读,相对于版面或由 offsetParent 属性指定的父坐标的计算上侧左侧位置，返回return {left: num, top: num}，单位px
 
 ### 事件绑定：
 * `on`：  绑定事件
