@@ -7,6 +7,12 @@
 * `parents(expr)`  // 获取所有祖先(父亲，爷爷..)，传递expr表示查找某种类型的祖先节点
 * `offsetParent()` // 与当前元素最近的经过定位(position不等于static)的父级元素
 * `siblings(expr)` // 查找节点的所有兄弟节点，不分前后
+* `prev(expr)`
+* `prevUtil(expr)`
+* `prevAll(expr)`
+* `next(expr)`
+* `nextUtil(expr)`
+* `nextAll(expr)`
 
 ### 管理类
 * `addClass(className)`  // 添加类
