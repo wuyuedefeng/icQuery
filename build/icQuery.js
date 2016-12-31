@@ -380,7 +380,35 @@ icPrototype.parents = function (expr) {
 icPrototype.parents.icDesc = '获取所有祖先(父亲，爷爷..)，传递expr表示查找某种类型的祖先节点';
 /* #endif */
 
-icPrototype.siblings = function () {};
+function getElementSiblings(element, expr) {
+    var siblings = [];
+    var _element = element;
+    while (_element = _element.previousSibling) {
+        if (_element.nodeType == 1) {
+            siblings.push(_element);
+        }
+    }
+    _element = element;
+    while (_element = _element.nextSibling) {
+        if (_element.nodeType == 1) {
+            siblings.push(_element);
+        }
+    }
+    if (expr) {
+        var exprElements = createIcArray()._query(expr);
+        siblings = siblings.filter(function (element) {
+            return exprElements.indexOf(element) != -1;
+        });
+    }
+    return siblings;
+}
+icPrototype.siblings = function (expr) {
+    var icArray = createIcArray();
+    this.forEach(function (element) {
+        Array.prototype.push.apply(icArray, getElementSiblings(element, expr));
+    });
+    return icArray.$icUniq();
+};
 /* #if icNote === 'exist' */
 icPrototype.siblings.icDesc = '查找兄弟节点，不分前后';
 /* #endif */

@@ -133,12 +133,40 @@ icPrototype.parents.icDesc = '获取所有祖先(父亲，爷爷..)，传递expr
 /* #endif */
 
 
-icPrototype.siblings = function() {
-
+function getElementSiblings(element, expr) {
+    var siblings = [];
+    var _element = element;
+    while ((_element = _element.previousSibling)){
+        if(_element.nodeType == 1){
+            siblings.push(_element);
+        }
+    }
+    _element = element;
+    while ((_element = _element.nextSibling)){
+        if(_element.nodeType == 1){
+            siblings.push(_element);
+        }
+    }
+    if(expr){
+        var exprElements = createIcArray()._query(expr);
+        siblings = siblings.filter(function (element) {
+            return exprElements.indexOf(element) != -1;
+        });
+    }
+    return siblings;
+}
+icPrototype.siblings = function(expr){
+    var icArray = createIcArray();
+    this.forEach(function (element) {
+        Array.prototype.push.apply(icArray, getElementSiblings(element, expr));
+    });
+    return icArray.$icUniq();
 };
 /* #if icNote === 'exist' */
-icPrototype.siblings.icDesc = '查找兄弟节点，不分前后';
+icPrototype.siblings.icDesc = '查找节点的所有兄弟节点，不分前后';
 /* #endif */
+
+
 
 ////////////////////////////////////////////////////////////////////
 //    类操作相关
@@ -197,6 +225,8 @@ icPrototype.containsClass = function (className) {
 /* #if icNote === 'exist' */
 icPrototype.containsClass.icDesc = '判断icArray中每个元素是否都存在传递的所有类， 参数：string or array';
 /* #endif */
+
+
 
 
 icPrototype.clientWidth = function () {
@@ -260,7 +290,6 @@ icPrototype.offset = function () {
 icPrototype.offset.icDesc = '只读, 计算元素offsetLeft, offsetTop偏移到body元素的距离和，返回{left: num, top: num}，单位px';
 /* #endif */
 
-
 icPrototype.position = function () {
     return {
         left: this.length && this[0].offsetLeft || 0,
@@ -270,8 +299,6 @@ icPrototype.position = function () {
 /* #if icNote === 'exist' */
 icPrototype.position.icDesc = '只读,相对于版面或由 offsetParent 属性指定的父坐标的计算上侧和左侧位置，返回{left: num, top: num}，单位px';
 /* #endif */
-
-
 
 icPrototype.scrollTop = function (val) {
     if(/number|string/i.test(typeof val) && this.length){
