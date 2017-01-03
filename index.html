@@ -39,7 +39,14 @@
     </div>
 </body>
 <script>
+    $ic('.box2').on('click', function (event, params1) {
+        console.log(111, event, params1);
+    });
+    $ic('.box2').on('hover', function (event, params1) {
+        console.log(222, event, params1);
+    });
 
+    $ic('.box2').trigger('click, hover');
 
 
 //    console.log($ic('#file'));
