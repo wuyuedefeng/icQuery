@@ -380,9 +380,72 @@ icPrototype.parents = function (expr) {
 icPrototype.parents.icDesc = '获取所有祖先(父亲，爷爷..)，传递expr表示查找某种类型的祖先节点';
 /* #endif */
 
-icPrototype.siblings = function () {};
+function getSiblingElements(queryIcArray, expr, method) {
+    var icArray = createIcArray();
+    var getDirection = '';
+    if (/prev/.test(method)) {
+        getDirection = 'previousSibling';
+    } else if (/next/.test(method)) {
+        getDirection = 'nextSibling';
+    }
+
+    var exprElements = createIcArray()._query(expr);
+    queryIcArray.forEach(function (element) {
+        while (element = element[getDirection]) {
+            if (element.nodeType == 1) {
+                if (!expr) {
+                    icArray.push(element);
+                }
+                if (['prev', 'next'].indexOf(method) != -1) {
+                    if (expr && exprElements.indexOf(element) != -1) {
+                        icArray.push(element);
+                    }
+                    break;
+                } else if (['prevUtil', 'nextUtil'].indexOf(method) != -1) {
+                    if (expr) {
+                        icArray.push(element);
+                        if (exprElements.indexOf(element) != -1) {
+                            break;
+                        }
+                    }
+                } else if (['prevAll', 'nextAll'].indexOf(method) != -1) {
+                    if (expr && exprElements.indexOf(element) != -1) {
+                        icArray.push(element);
+                    }
+                }
+            }
+        }
+    });
+    return icArray;
+}
+
+icPrototype.prev = function (expr) {
+    return getSiblingElements(this, expr, 'prev');
+};
+icPrototype.prevUtil = function (expr) {
+    return getSiblingElements(this, expr, 'prevUtil');
+};
+icPrototype.prevAll = function (expr) {
+    return getSiblingElements(this, expr, 'prevAll');
+};
+icPrototype.next = function (expr) {
+    return getSiblingElements(this, expr, 'next');
+};
+icPrototype.nextUtil = function (expr) {
+    return getSiblingElements(this, expr, 'nextUtil');
+};
+icPrototype.nextAll = function (expr) {
+    return getSiblingElements(this, expr, 'nextAll');
+};
+
+icPrototype.siblings = function (expr) {
+    var icArray = createIcArray();
+    Array.prototype.push.apply(icArray, this.prevAll(expr));
+    Array.prototype.push.apply(icArray, this.nextAll(expr));
+    return icArray;
+};
 /* #if icNote === 'exist' */
-icPrototype.siblings.icDesc = '查找兄弟节点，不分前后';
+icPrototype.siblings.icDesc = '查找节点的所有兄弟节点，不分前后';
 /* #endif */
 
 ////////////////////////////////////////////////////////////////////
@@ -605,7 +668,6 @@ icPrototype.trigger = function (eventType) {
 };
 /* #if icNote === 'exist' */
 icPrototype.trigger.icDesc = '触发事件';
-
 /* #endif */
 
 module.exports = {

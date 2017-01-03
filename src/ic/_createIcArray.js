@@ -133,12 +133,75 @@ icPrototype.parents.icDesc = '获取所有祖先(父亲，爷爷..)，传递expr
 /* #endif */
 
 
-icPrototype.siblings = function() {
+function getSiblingElements(queryIcArray, expr, method){
+    var icArray = createIcArray();
+    var getDirection = '';
+    if(/prev/.test(method)){
+        getDirection = 'previousSibling';
+    }else if(/next/.test(method)){
+        getDirection = 'nextSibling';
+    }
 
+    var exprElements = createIcArray()._query(expr);
+    queryIcArray.forEach(function (element) {
+        while ((element = element[getDirection])){
+            if(element.nodeType == 1){
+                if(!expr){
+                    icArray.push(element);
+                }
+                if(['prev', 'next'].indexOf(method) != -1){
+                    if(expr && exprElements.indexOf(element) != -1){
+                        icArray.push(element);
+                    }
+                    break;
+                } else if(['prevUtil', 'nextUtil'].indexOf(method) != -1){
+                    if(expr){
+                        icArray.push(element);
+                        if(exprElements.indexOf(element) != -1){
+                            break;
+                        }
+                    }
+                }else if(['prevAll', 'nextAll'].indexOf(method) != -1){
+                    if(expr && exprElements.indexOf(element) != -1){
+                        icArray.push(element);
+                    }
+                }
+            }
+        }
+    });
+    return icArray;
+}
+
+icPrototype.prev = function(expr){
+    return getSiblingElements(this, expr, 'prev');
+};
+icPrototype.prevUtil = function(expr){
+    return getSiblingElements(this, expr, 'prevUtil');
+};
+icPrototype.prevAll = function(expr){
+    return getSiblingElements(this, expr, 'prevAll');
+};
+icPrototype.next = function(expr){
+    return getSiblingElements(this, expr, 'next');
+};
+icPrototype.nextUtil = function(expr){
+    return getSiblingElements(this, expr, 'nextUtil');
+};
+icPrototype.nextAll = function(expr){
+    return getSiblingElements(this, expr, 'nextAll');
+};
+
+icPrototype.siblings = function (expr) {
+    var icArray = createIcArray();
+    Array.prototype.push.apply(icArray, this.prevAll(expr));
+    Array.prototype.push.apply(icArray, this.nextAll(expr));
+    return icArray;
 };
 /* #if icNote === 'exist' */
-icPrototype.siblings.icDesc = '查找兄弟节点，不分前后';
+icPrototype.siblings.icDesc = '查找节点的所有兄弟节点，不分前后';
 /* #endif */
+
+
 
 ////////////////////////////////////////////////////////////////////
 //    类操作相关
@@ -197,6 +260,8 @@ icPrototype.containsClass = function (className) {
 /* #if icNote === 'exist' */
 icPrototype.containsClass.icDesc = '判断icArray中每个元素是否都存在传递的所有类， 参数：string or array';
 /* #endif */
+
+
 
 
 icPrototype.clientWidth = function () {
@@ -260,7 +325,6 @@ icPrototype.offset = function () {
 icPrototype.offset.icDesc = '只读, 计算元素offsetLeft, offsetTop偏移到body元素的距离和，返回{left: num, top: num}，单位px';
 /* #endif */
 
-
 icPrototype.position = function () {
     return {
         left: this.length && this[0].offsetLeft || 0,
@@ -270,8 +334,6 @@ icPrototype.position = function () {
 /* #if icNote === 'exist' */
 icPrototype.position.icDesc = '只读,相对于版面或由 offsetParent 属性指定的父坐标的计算上侧和左侧位置，返回{left: num, top: num}，单位px';
 /* #endif */
-
-
 
 icPrototype.scrollTop = function (val) {
     if(/number|string/i.test(typeof val) && this.length){
@@ -367,7 +429,6 @@ icPrototype.trigger = function (eventType) {
 };
 /* #if icNote === 'exist' */
 icPrototype.trigger.icDesc = '触发事件';
-
 /* #endif */
 
 
