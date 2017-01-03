@@ -39,14 +39,19 @@
         <div class="box1">div box6</div>
         <span>0..0</span>
     </div>
+    <input type="text" class="input">
+
+    <form action="/abc">
+        <input type="submit" value="submit">
+    </form>
 </body>
 <script>
-    $ic('.box2').on('click', function (event, params1) {
-        console.log(1211, event, params1);
+
+    $ic('form').on('submit', function () {
+        console.log('focus2');
     });
 
-    $ic('.box2 span').trigger('click',111);
-
+    $ic('form').trigger('submit');
 
 //    console.log($ic('#file'));
 //    $ic('#file').on('change', function (e) {

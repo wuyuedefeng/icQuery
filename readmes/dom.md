@@ -30,7 +30,8 @@
 * `position()`      // 只读,相对于版面或由 offsetParent 属性指定的父坐标的计算上侧左侧位置，返回return {left: num, top: num}，单位px
 
 ### 事件绑定：
-* `on`：  绑定事件
-* `one`： 绑定事件只执行一次
-* `off`:  解除事件绑定
-* `trigger` 触发事件
+* `on(event, cb, useCapture)`：  绑定事件
+* `one(event, cb, useCapture)`： 绑定事件只执行一次
+* `off(event, cb, useCapture)`:  解除事件绑定
+* `trigger(type)` 触发事件
+*  `triggerHandler(type, opts)` 触发事件 不会触发事件的默认行为
