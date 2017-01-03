@@ -661,9 +661,27 @@ icPrototype.off = function (event, cb) {
 icPrototype.off.icDesc = '解除绑定事件如：click hover ..., 参数：event: string or array, ' + '\nuseCapture: ' + '\n[1]true 的触发顺序总是在 false 之前' + '\n[2]如果多个均为 true，则外层的触发先于内层' + '\n[3]如果多个均为 false，则内层的触发先于外层';
 /* #endif */
 
-icPrototype.trigger = function (eventType) {
+icPrototype.trigger = function (type, opts) {
     this.forEach(function (element) {
-        element[eventType]();
+        if (!opts) {
+            element[type]();
+        } else {
+            var eventType = 'Events';
+            // if(/abort|blur|change|error|focus|load|reset|resize|scroll|select|submit|unload/ig.test(type)){
+            //     eventType = 'HTMLEvents';
+            // }else if(/DOMActivate|DOMFocusIn|DOMFocusOut|keydown|keypress|keyup/ig.test(type)){
+            //     eventType = 'UIEvents';
+            // }else if(/click|mousedown|mousemove|mouseout|mouseover|mouseup/ig.test(type)){
+            //     eventType = 'MouseEvents';
+            // }else if(/DOMAttrModified|DOMNodeInserted|DOMNodeRemoved|DOMCharacterDataModified|DOMNodeInsertedIntoDocument|DOMNodeRemovedFromDocument|DOMSubtreeModified/ig.test(type)){
+            //     eventType = 'MutationEvents';
+            // }
+
+            var evt = document.createEvent(eventType);
+            evt.initEvent(type, true, true);
+            evt.$icOpts = opts;
+            element.dispatchEvent(evt);
+        }
     });
 };
 /* #if icNote === 'exist' */

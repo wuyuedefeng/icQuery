@@ -24,7 +24,7 @@
     </div>
 
 
-    <div id="box two" class="dddd" style="height: 100px; overflow: auto; padding: 30px; border: 1px solid gray; position: relative">
+    <div id="boxTwo" class="dddd" style="height: 100px; overflow: auto; padding: 30px; border: 1px solid gray; position: relative">
         <div class="box0">div box0</div>
         <div class="box1">div box1</div>
         <div class="box11">div box11</div>
@@ -42,13 +42,10 @@
 </body>
 <script>
     $ic('.box2').on('click', function (event, params1) {
-        console.log(111, event, params1);
-    });
-    $ic('.box2').on('hover', function (event, params1) {
-        console.log(222, event, params1);
+        console.log(1211, event, params1);
     });
 
-    $ic('.box2').trigger('click, hover');
+    $ic('.box2 span').trigger('click',111);
 
 
 //    console.log($ic('#file'));
