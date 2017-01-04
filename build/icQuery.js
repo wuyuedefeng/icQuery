@@ -625,6 +625,19 @@ icPrototype.css = function (propertyName, value) {
 icPrototype.css.icDesc = '设置或得到css样式';
 /* #endif */
 
+icPrototype.attr = function (attribute, value) {
+    if (value) {
+        this.forEach(function (el) {
+            el.setAttribute(attribute, value);
+        });
+    } else {
+        return this[0] ? this[0].getAttribute(attribute) : '';
+    }
+};
+/* #if icNote === 'exist' */
+icPrototype.attr.icDesc = '设置或返回被选元素的属性值';
+/* #endif */
+
 ////////////////////////////////////////////////////////////////////
 //    事件相关
 ////////////////////////////////////////////////////////////////////
