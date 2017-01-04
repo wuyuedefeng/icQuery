@@ -493,7 +493,7 @@ icPrototype.toggleClass = function (className) {
 icPrototype.toggleClass.icDesc = '存在class移除，不存在添加， 参数：string or array';
 /* #endif */
 
-icPrototype.containsClass = function (className) {
+icPrototype.hasClass = icPrototype.containsClass = function (className) {
     var allContain = true;
     operateClass('contains', this, className, function (isContainItem) {
         if (!isContainItem) {
@@ -503,7 +503,7 @@ icPrototype.containsClass = function (className) {
     return allContain;
 };
 /* #if icNote === 'exist' */
-icPrototype.containsClass.icDesc = '判断icArray中每个元素是否都存在传递的所有类， 参数：string or array';
+icPrototype.hasClass.icDesc = icPrototype.containsClass.icDesc = '判断icArray中每个元素是否都存在传递的所有类， 参数：string or array';
 /* #endif */
 
 icPrototype.clientWidth = function () {
@@ -582,6 +582,47 @@ icPrototype.scrollTop = function (val) {
 };
 /* #if icNote === 'exist' */
 icPrototype.scrollTop.icDesc = '读写，获取或设置元素滚动距离,返回整数，赋值整数， 单位px';
+/* #endif */
+
+icPrototype.css = function (propertyName, value) {
+    if (value && typeof propertyName == 'string') {
+        this.forEach(function (el) {
+            setStyle(el, propertyName, value);
+        });
+    } else if (typeof propertyName == 'string') {
+        return this[0] ? getStyle(this[0], propertyName) : '';
+    } else if (propertyName instanceof Object) {
+        this.forEach(function (el) {
+            for (var key in propertyName) {
+                setStyle(el, key, propertyName[key]);
+            }
+        });
+    }
+    // 获得样式
+    function getStyle(elem, name) {
+        //如果该属性存在于style[]中，则它最近被设置过(且就是当前的)
+        //否则，尝试IE的方式
+        //或者W3C的方法，如果存在的话 (document.defaultView返回当前文档关联的window对象)
+        var computedStyle = elem.style || elem.currentStyle || document.defaultView && document.defaultView.getComputedStyle && document.defaultView.getComputedStyle(elem, null);
+        if (name != "float") {
+            return computedStyle[name];
+        } else {
+            return computedStyle["cssFloat"] || computedStyle["styleFloat"];
+        }
+    }
+    // 设置样式
+    //element:需要设置样式的目标元素;name:样式属性;value:设置值
+    function setStyle(element, name, value) {
+        if (name != "float") {
+            element.style[name] = value;
+        } else {
+            element.style["cssFloat"] = value;
+            element.style["styleFloat"] = value;
+        }
+    }
+};
+/* #if icNote === 'exist' */
+icPrototype.css.icDesc = '设置或得到css样式';
 /* #endif */
 
 ////////////////////////////////////////////////////////////////////

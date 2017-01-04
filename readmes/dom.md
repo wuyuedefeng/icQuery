@@ -28,6 +28,7 @@
 * `scrollTop(val)`   // 读写，获取或设置元素滚动距离,返回整数，赋值`整数`， 单位px
 * `offset()`         // 只读 元素 offsetLeft, offsetTop, 偏移到body标签的距离 return {left: num, top: num}
 * `position()`      // 只读,相对于版面或由 offsetParent 属性指定的父坐标的计算上侧左侧位置，返回return {left: num, top: num}，单位px
+* `css(propertyName, value)`  // 设置或得到css样式
 
 ### 事件绑定：
 * `on(event, cb, useCapture)`：  绑定事件
