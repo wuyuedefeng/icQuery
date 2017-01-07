@@ -39,16 +39,11 @@
         <div class="box1">div box6</div>
         <span>0..0</span>
     </div>
-    <input type="text" class="input">
-
-    <form action="/abc">
-        <input type="submit" value="submit">
-    </form>
 </body>
 <script>
 
-    console.log($ic('input').attr('type'));
-    $ic('input').attr('value', '123');
+    $ic('span').attr('name', '123');
+    $ic('span').removeAttr('name');
 
 //    $ic('form').on('submit', function () {
 //        console.log('focus2');

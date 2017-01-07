@@ -638,6 +638,15 @@ icPrototype.attr = function (attribute, value) {
 icPrototype.attr.icDesc = '设置或返回被选元素的属性值';
 /* #endif */
 
+icPrototype.removeAttr = function (attribute) {
+    this.forEach(function (el) {
+        el.removeAttribute(attribute);
+    });
+};
+/* #if icNote === 'exist' */
+icPrototype.removeAttr.icDesc = '移除被选元素的属性值';
+/* #endif */
+
 ////////////////////////////////////////////////////////////////////
 //    事件相关
 ////////////////////////////////////////////////////////////////////

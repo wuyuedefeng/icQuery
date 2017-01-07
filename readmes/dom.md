@@ -30,6 +30,7 @@
 * `position()`      // 只读,相对于版面或由 offsetParent 属性指定的父坐标的计算上侧左侧位置，返回return {left: num, top: num}，单位px
 * `css(propertyName, value)`  // 设置或得到css样式
 * `attr(attribute, value)`    // 设置或返回被选元素的属性值
+* `removeAttr(attribute)`     // 移除被选元素的属性值
 
 ### 事件绑定：
 * `on(event, cb, useCapture)`：  绑定事件
