@@ -631,7 +631,15 @@ icPrototype.attr = function (attribute, value) {
             el.setAttribute(attribute, value);
         });
     } else {
-        return this[0] ? this[0].getAttribute(attribute) : '';
+        if ((typeof attribute === 'undefined' ? 'undefined' : _typeof(attribute)) == 'object') {
+            this.forEach(function (el) {
+                for (var key in attribute) {
+                    el.setAttribute(key, attribute[key]);
+                }
+            });
+        } else {
+            return this[0] ? this[0].getAttribute(attribute) : '';
+        }
     }
 };
 /* #if icNote === 'exist' */
