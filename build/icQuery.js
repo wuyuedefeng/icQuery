@@ -585,7 +585,8 @@ icPrototype.scrollTop.icDesc = '读写，获取或设置元素滚动距离,返�
 /* #endif */
 
 icPrototype.css = function (propertyName, value) {
-    if (value && typeof value == 'number') value = value + 'px';
+    // 如果没有单位
+    if ((value || value == 0) && parseInt(value) == value) value = value + 'px';
     if (value && typeof propertyName == 'string') {
         this.forEach(function (el) {
             setStyle(el, propertyName, value);

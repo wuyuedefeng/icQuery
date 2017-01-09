@@ -11,7 +11,16 @@
     <style>
         .carouselFigure{
             background: gray;
+            position: relative;
             overflow: hidden;
+        }
+        .carouselFigure > ul{
+            position: absolute;
+            left: 0;
+            top: 0;
+            /* 清除浮动 */
+            clear: both;
+            zoom: 1;
         }
         .carouselFigure li{
             float: left;
@@ -22,7 +31,7 @@
     <div class="ic-box">
         <div class="carouselFigure">
             <ul>
-                <li class="page">1</li>
+                <li class="page">11111111111111111111</li>
                 <li class="page">2</li>
                 <li class="page">3</li>
                 <li class="page">4</li>
@@ -33,14 +42,55 @@
         $ic(function ($) {
             function initCarouselFigure(expr) {
                 expr = expr || '.carouselFigure';
-                var boxWidth = parseInt($(expr).css('width'));
-                var $lis = $(expr + ' .page');
-                $lis.css('width', $(expr).css('width'));
-                $(expr + ' > ul').css('width', boxWidth * $lis.length);
+                var exprDom = $(expr);
+                var ulDom = exprDom.children('ul');
+                var liDoms = ulDom.children('.page');
+                var boxWidth = parseInt(exprDom.css('width'));
+                // 容器高度为0， 设置为资源速度的高度
+                if(!parseInt(exprDom.css('height'))){
+                    exprDom.css('height', liDoms.css('height'));
+                }
+                liDoms.css('width', exprDom.css('width'));
+                ulDom.css('width', boxWidth * liDoms.length);
 
-                $(expr).on('touchstart', function (e) {
-                    console.log(e);
-                })
+
+                document.addEventListener('touchstart',touch, false);
+                document.addEventListener('touchmove',touch, false);
+                document.addEventListener('touchend',touch, false);
+
+                var touchStartX = 0;
+                var nowLeft = 0;
+                var offsetX = 0;
+                function touch (event){
+                    var event = event || window.event;
+                    console.log(event.type);
+                    switch(event.type){
+                        case "touchstart":
+                            touchStartX = event.touches[0].clientX;
+                            nowLeft = parseInt(ulDom.css('left'));
+                            break;
+                        case "touchend":
+                            var mod = Math.abs(offsetX+nowLeft) % boxWidth;
+                            if( mod < boxWidth/2){
+                                var shouldLeft = offsetX + nowLeft + mod;
+                            }else {
+                                var shouldLeft = offsetX + nowLeft + mod - boxWidth;
+                            }
+                            if(shouldLeft > 0){
+                                shouldLeft = 0;
+                            }
+                            else if(shouldLeft < -(liDoms.length -1) * boxWidth){
+                                shouldLeft = -(liDoms.length -1) * boxWidth;
+                            }
+                            ulDom.css('left', shouldLeft);
+                            break;
+                        case "touchmove":
+                            event.preventDefault();
+                            offsetX = event.touches[0].clientX - touchStartX;
+                            ulDom.css('left', offsetX + nowLeft);
+                            break;
+                    }
+                }
             }
             initCarouselFigure('.carouselFigure')
         })
