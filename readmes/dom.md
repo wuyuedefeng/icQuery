@@ -38,3 +38,7 @@
 * `off(event, cb, useCapture)`:  解除事件绑定
 * `trigger(type)` 触发事件
 *  `triggerHandler(type, opts)` 触发事件 不会触发事件的默认行为
+
+
+### 动画
+animate(properties, stepDuration, fn) // 执行动画

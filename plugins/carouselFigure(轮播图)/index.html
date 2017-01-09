@@ -10,11 +10,11 @@
     <script src="../../build/icQuery.js"></script>
     <style>
         .carouselFigure{
-            background: gray;
             position: relative;
             overflow: hidden;
         }
         .carouselFigure > ul{
+            background: gray;
             position: absolute;
             left: 0;
             top: 0;
@@ -31,15 +31,24 @@
     <div class="ic-box">
         <div class="carouselFigure">
             <ul>
-                <li class="page">11111111111111111111</li>
-                <li class="page">2</li>
-                <li class="page">3</li>
-                <li class="page">4</li>
+                <li class="page">
+                    <img src="http://img05.tooopen.com/images/20150202/sy_80219211654.jpg" alt="">
+                </li>
+                <li class="page">
+                    <img src="http://img06.tooopen.com/images/20160922/tooopen_sy_179739052216.jpg" alt="">
+                </li>
+                <li class="page">
+                    <img src="http://img06.tooopen.com/images/20160811/tooopen_sy_175126843516.jpg" alt="">
+                </li>
+                <li class="page">
+                    <img src="http://img06.tooopen.com/images/20160712/tooopen_sy_170132341178.jpg" alt="">
+                </li>
             </ul>
         </div>
     </div>
     <script>
-        $ic(function ($) {
+        $(function () {
+//        $ic(function ($) {
             function initCarouselFigure(expr) {
                 expr = expr || '.carouselFigure';
                 var exprDom = $(expr);
@@ -63,7 +72,6 @@
                 var offsetX = 0;
                 function touch (event){
                     var event = event || window.event;
-                    console.log(event.type);
                     switch(event.type){
                         case "touchstart":
                             touchStartX = event.touches[0].clientX;
@@ -82,7 +90,9 @@
                             else if(shouldLeft < -(liDoms.length -1) * boxWidth){
                                 shouldLeft = -(liDoms.length -1) * boxWidth;
                             }
-                            ulDom.css('left', shouldLeft);
+                            ulDom.animate({
+                                'left': shouldLeft
+                            });
                             break;
                         case "touchmove":
                             event.preventDefault();

@@ -766,6 +766,82 @@ icPrototype.triggerHandler = function (type, opts) {
 icPrototype.triggerHandler.icDesc = '触发事件 不会触发事件的默认行为';
 /* #endif */
 
+////////////////////////////////////////////////////////////////////
+//    动画相关
+////////////////////////////////////////////////////////////////////
+function animate(obj, json, fn, speed) {
+    // 给谁    json
+    speed = speed || 10; // ms
+    var icArray = createIcArray();
+    icArray.push(obj);
+    clearInterval(obj.timer);
+    obj.timer = setInterval(function () {
+        var flag = true; // 用来判断是否停止定时器   一定写到遍历的外面
+        for (var attr in json) {
+            // attr  属性     json[attr]  值
+            //开始遍历 json
+            // 计算步长    用 target 位置 减去当前的位置  除以 10
+            var current = 0;
+            if (attr == "opacity") {
+                current = Math.round(parseInt(icArray.css(attr) * 100)) || 0;
+            } else {
+                current = parseInt(icArray.css(attr)); // 数值
+            }
+            // console.log(current);
+            // 目标位置就是  属性值
+            var step = (json[attr] - current) / 10; // 步长  用目标位置 - 现在的位置 / 10
+            step = step > 0 ? Math.ceil(step) : Math.floor(step);
+            //判断透明度
+            if (attr == "opacity") {
+                // 判断用户有没有输入 opacity
+                icArray.css('opacity', (current + step) / 100);
+                // if("opacity" in obj.style){  // 判断 我们浏览器是否支持opacity
+                //     // obj.style.opacity
+                //     obj.style.opacity = (current + step) /100;
+                // }
+                // else{  // obj.style.filter = alpha(opacity = 30)
+                //     obj.style.filter = "alpha(opacity = "+(current + step)* 10+")";
+                // }
+            } else if (attr == "zIndex") {
+                icArray.css('zIndex', json[attr]);
+                // obj.style.zIndex = json[attr];
+            } else {
+                icArray.css(attr, current + step + "px");
+                // obj.style[attr] = current  + step + "px" ;
+            }
+
+            if (current != json[attr]) {
+                // 只要其中一个不满足条件 就不应该停止定时器  这句一定遍历里面
+                flag = false;
+            }
+        }
+        if (flag) {
+            // 用于判断定时器的条件
+            clearInterval(obj.timer);
+            //alert("ok了");
+            if (fn) {
+                // 很简单   当定时器停止了。 动画就结束了  如果有回调，就应该执行回调
+                fn(); // 函数名 +  （）  调用函数  执行函数
+            }
+        }
+    }, speed);
+}
+icPrototype.animate = function (properties, stepDuration, fn) {
+    stepDuration = stepDuration || 10; //10ms/step
+    var count = 0;
+    var allCount = this.length;
+    this.forEach(function (element) {
+        animate(element, properties, function () {
+            if (++count == allCount) {
+                fn && fn();
+            }
+        }, stepDuration);
+    });
+};
+/* #if icNote === 'exist' */
+icPrototype.animate.icDesc = '执行动画';
+/* #endif */
+
 module.exports = {
     IcArray: IcArray,
     createIcArray: createIcArray
