@@ -585,6 +585,7 @@ icPrototype.scrollTop.icDesc = '读写，获取或设置元素滚动距离,返�
 /* #endif */
 
 icPrototype.css = function (propertyName, value) {
+    if (value && typeof value == 'number') value = value + 'px';
     if (value && typeof propertyName == 'string') {
         this.forEach(function (el) {
             setStyle(el, propertyName, value);
@@ -603,7 +604,7 @@ icPrototype.css = function (propertyName, value) {
         //如果该属性存在于style[]中，则它最近被设置过(且就是当前的)
         //否则，尝试IE的方式
         //或者W3C的方法，如果存在的话 (document.defaultView返回当前文档关联的window对象)
-        var computedStyle = elem.style || elem.currentStyle || document.defaultView && document.defaultView.getComputedStyle && document.defaultView.getComputedStyle(elem, null);
+        var computedStyle = document.defaultView && document.defaultView.getComputedStyle && document.defaultView.getComputedStyle(elem, null) || elem.style || elem.currentStyle;
         if (name != "float") {
             return computedStyle[name];
         } else {

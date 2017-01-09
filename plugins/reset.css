@@ -1,0 +1,52 @@
+html, body, p, ol, ul, li, dl, dt, dd, blockquote, figure, fieldset, legend, textarea, pre, iframe, hr, h1, h2, h3, h4, h5, h6, button {
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-size: 100%;
+    font-weight: normal;
+}
+
+ul {
+    list-style: none;
+}
+
+button, input, select, textarea, samp {
+    font-size: 100%;
+}
+
+html {
+    box-sizing: border-box;
+//font-family: Arial, sans-serif;
+}
+
+*, *:before, *:after {
+    /*This prevents users being able to select text. Stops long presses in iOS bringing up copy/paste UI for example. Note below we specifically switch user-select on for inputs for the sake of Safari. Bug here: https://bugs.webkit.org/show_bug.cgi?id=82692*/
+    user-select: none;
+    /*This gets -webkit specific prefix as it is a non W3C property*/
+    -webkit-tap-highlight-color: rgba(255,255,255,0);
+    /*Older Androids need this instead*/
+    -webkit-tap-highlight-color: transparent;
+    /* Most devs find border-box easier to reason about. However by inheriting we can mix box-sizing approaches.*/
+    box-sizing: inherit;
+}
+
+img, embed, object, audio, video {
+    height: auto;
+    max-width: 100%;
+}
+
+iframe {
+    border: 0;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+td, th {
+    padding: 0;
+    text-align: left;
+}

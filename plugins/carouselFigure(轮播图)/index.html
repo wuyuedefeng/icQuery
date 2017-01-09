@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <link rel="stylesheet" href="../reset.css">
+    <script src="../jquery.js"></script>
+    <script src="../../build/icQuery.js"></script>
+    <style>
+        .carouselFigure{
+            background: gray;
+            overflow: hidden;
+        }
+        .carouselFigure li{
+            float: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="ic-box">
+        <div class="carouselFigure">
+            <ul>
+                <li class="page">1</li>
+                <li class="page">2</li>
+                <li class="page">3</li>
+                <li class="page">4</li>
+            </ul>
+        </div>
+    </div>
+    <script>
+        $ic(function ($) {
+            function initCarouselFigure(expr) {
+                expr = expr || '.carouselFigure';
+                var boxWidth = parseInt($(expr).css('width'));
+                var $lis = $(expr + ' .page');
+                $lis.css('width', $(expr).css('width'));
+                $(expr + ' > ul').css('width', boxWidth * $lis.length);
+
+                $(expr).on('touchstart', function (e) {
+                    console.log(e);
+                })
+            }
+            initCarouselFigure('.carouselFigure')
+        })
+    </script>
+</body>
+</html>
